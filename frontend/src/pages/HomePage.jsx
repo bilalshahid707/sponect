@@ -7,7 +7,6 @@ import {
   applicantSteps,
   brandSteps,
   FadeInWhenVisible,
-  InfoModal,
   BasicAlert
 } from "../imports";
 import { motion } from "motion/react";
