@@ -29,10 +29,10 @@ exports.uploadFile = catchAsync(async (req, res, next) => {
             return resolve(result);
         }).end(buffer);
     }).then((uploadResult) => {
-        req.image = JSON.stringify({
+        req.image = {
             secureUrl: uploadResult.secure_url,
             publicID: uploadResult.public_id,
-        })
+        }
     }).catch((err) => {
         return next(new AppError(err.message, err.http_code))
     });

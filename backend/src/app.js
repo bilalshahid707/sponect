@@ -3,7 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./middlewares/errorMiddleware");
-
+const morgan = require("morgan")
 // Importing routers
 const authRouter = require("./routes/auth.routes");
 const userRouter = require("./routes/user.routes")
@@ -11,6 +11,8 @@ const applicantRouter = require('./routes/applicant.routes')
 const sponsorRouter = require('./routes/sponsor.routes')
 
 const app = express()
+
+app.use(morgan('dev'))
 
 app.use(cors({
     origin: "http://localhost:5173",

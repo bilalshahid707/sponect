@@ -1,29 +1,63 @@
-import { FadeInWhenVisible,BasicAlert , useAuth} from "../imports";
-import {useForm} from "react-hook-form"
+import { useAuth, BasicAlert } from "../imports";
+import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import { useState } from "react";
+import { User, Mail, Phone, UserCheck, Building2, Briefcase, Lock } from "lucide-react";
+import CircularProgress from "@mui/material/CircularProgress";
+import { signupSchema } from "../utils/validationSchemas";
 
 export const SignupPage = () => {
-  const  {handleSubmit,register,formState:{errors}} = useForm()
+  const mutation = useAuth("signup");
 
-  const mutation = useAuth("signup")
+  const [alertMsg, setAlertMsg] = useState();
+  const [alertSeverity, setAlertSeverity] = useState();
 
-  const onSubmit = (data)=>{
-    mutation.mutate(data)
-  }
+  const formik = useFormik({
+    initialValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      accountType: "",
+      organizationName: "",
+      designation: "",
+      password: "",
+    },
+    validationSchema: signupSchema,
+    onSubmit: (values, { setSubmitting }) => {
+      mutation.mutate(values, {
+        onSuccess: () => {
+          setAlertMsg("Account created successfully");
+          setAlertSeverity("success");
+        },
+        onError: (error) => {
+          setAlertMsg(error.response?.data?.message || error.message);
+          setAlertSeverity("error");
+        },
+        onSettled: () => {
+          setSubmitting(false);
+        },
+      });
+    },
+  });
 
   return (
     <>
-    {/* {alertMsg2 && <BasicAlert setAlertMsg={setAlertMsg2} message={alertMsg2} severity="error"/>} */}
-      <section className="section">
+      {alertMsg && (
+        <BasicAlert
+          message={alertMsg}
+          severity={alertSeverity}
+          setAlertMsg={setAlertMsg}
+        />
+      )}
 
-        <FadeInWhenVisible>
+      <section className="section">
         <div className="container relative">
           <div className="absolute w-full h-1/2 top-0 left-0 rounded-4xl bg-dark -z-10"></div>
           <div className="flex flex-col gap-xl">
-            <div className="">
-              <h1 className="heading-secondary text-white text-center">
-                Join the First Smart Sponsorship Platform in Pakistan
-              </h1>
-            </div>
+            <h1 className="heading-secondary text-white text-center">
+              Join the First Smart Sponsorship Platform in Pakistan
+            </h1>
+
             <div className="p-4 md:p-12 bg-white shadow-xl rounded-4xl">
               <div className="flex flex-col gap-lg w-full">
                 <h3 className="heading-tertiary text-dark text-center">
@@ -31,138 +65,206 @@ export const SignupPage = () => {
                 </h3>
 
                 <div className="self-center flex flex-col items-center justify-center cursor-pointer gap-sm">
-                <p className="body-text text-dark">Already joined Sponect?</p>
-                <button className="btn-primary w-max">Go to Login Page</button>
+                  <p className="body-text text-dark">Already joined Sponect?</p>
+                  <Link to="/login" className="btn-primary w-max cursor-pointer">
+                    Go to Login Page
+                  </Link>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-md">
+
+                <form onSubmit={formik.handleSubmit} className="flex flex-col gap-md">
+                  {/* Full Name */}
                   <div className="form-field">
                     <label className="input-label">Full Name</label>
-                    <div className={`input-field ${errors.fullName ? 'border-2 border-red-600' : ''}`}>
-                      <i className="bi bi-person-fill body-text text-dark"></i>
+                    <div
+                      className={`input-field ${
+                        formik.touched.fullName && formik.errors.fullName
+                          ? "border-2 border-red-600"
+                          : ""
+                      }`}
+                    >
+                      <User size={20} className="text-dark" />
                       <input
                         type="text"
+                        name="fullName"
                         className="input text-dark"
                         placeholder="John Doe"
                         autoComplete="name"
-                        {...register('fullName',{required:true})}
-                        aria-invalid={errors.fullName ? 'true' : 'false'}
+                        {...formik.getFieldProps("fullName")}
                       />
                     </div>
-                    {errors.fullName?.type === 'required' && <p role="alert" className='text-sm text-red-600'>Full name is required</p>}
+                    {formik.touched.fullName && formik.errors.fullName && (
+                      <p className="text-sm text-red-600">{formik.errors.fullName}</p>
+                    )}
                   </div>
 
                   {/* Email */}
                   <div className="form-field">
                     <label className="input-label">Email Address</label>
-                    <div className={`input-field ${errors.email ? 'border-2 border-red-600' : ''}`}>
-                      <i className="bi bi-envelope-fill body-text text-dark"></i>
+                    <div
+                      className={`input-field ${
+                        formik.touched.email && formik.errors.email
+                          ? "border-2 border-red-600"
+                          : ""
+                      }`}
+                    >
+                      <Mail size={20} className="text-dark" />
                       <input
                         type="email"
+                        name="email"
                         className="input text-dark"
                         placeholder="you@example.com"
                         autoComplete="email"
-                        {...register("email",{required:true})}
-                        aria-invalid={errors.email ? 'true' : 'false'}
+                        {...formik.getFieldProps("email")}
                       />
                     </div>
-                    {errors.email?.type === 'required' && <p role="alert" className='text-sm text-red-600'>Email is required</p>}
+                    {formik.touched.email && formik.errors.email && (
+                      <p className="text-sm text-red-600">{formik.errors.email}</p>
+                    )}
                   </div>
 
                   {/* Phone */}
                   <div className="form-field">
                     <label className="input-label">Phone Number</label>
-                    <div className={`input-field ${errors.phone ? 'border-2 border-red-600' : ''}`}>
-                      <i className="bi bi-telephone-fill body-text text-dark"></i>
+                    <div
+                      className={`input-field ${
+                        formik.touched.phone && formik.errors.phone
+                          ? "border-2 border-red-600"
+                          : ""
+                      }`}
+                    >
+                      <Phone size={20} className="text-dark" />
                       <input
                         type="tel"
+                        name="phone"
                         className="input text-dark"
                         placeholder="+1 234 567 890"
                         autoComplete="tel"
-                        pattern="[0-9+\s()-]{7,}"
-                        {...register("phone",{required:true})}
-                        aria-invalid={errors.phone ? 'true' : 'false'}
+                        {...formik.getFieldProps("phone")}
                       />
                     </div>
-                    {errors.phone?.type === 'required' && <p role="alert" className='text-sm text-red-600'>Phone number is required</p>}
-                    {errors.phone?.type === 'pattern' && <p role="alert" className='text-sm text-red-600'>Enter a valid phone number</p>}
+                    {formik.touched.phone && formik.errors.phone && (
+                      <p className="text-sm text-red-600">{formik.errors.phone}</p>
+                    )}
                   </div>
 
                   {/* Account Type */}
                   <div className="form-field">
                     <label className="input-label">Registering As</label>
-                    <div className={`input-field ${errors.accountType ? 'border-2 border-red-600' : ''}`}>
-                      <i className="bi bi-person-badge-fill body-text text-dark"></i>
+                    <div
+                      className={`input-field ${
+                        formik.touched.accountType && formik.errors.accountType
+                          ? "border-2 border-red-600"
+                          : ""
+                      }`}
+                    >
+                      <UserCheck size={20} className="text-dark" />
                       <select
+                        name="accountType"
                         className="input text-dark bg-transparent outline-none w-full"
-                        {...register("accountType",{required:true})}
-                        aria-invalid={errors.accountType ? 'true' : 'false'}
+                        {...formik.getFieldProps("accountType")}
                       >
-                        <option value="" disabled selected>
+                        <option value="" disabled>
                           Select account type
                         </option>
                         <option value="applicant">Applicant</option>
                         <option value="sponsor">Sponsor</option>
                       </select>
                     </div>
-                    {errors.accountType?.type === 'required' && <p role="alert" className='text-sm text-red-600'>Please select an account type</p>}
+                    {formik.touched.accountType && formik.errors.accountType && (
+                      <p className="text-sm text-red-600">{formik.errors.accountType}</p>
+                    )}
                   </div>
 
+                  {/* Organization Name */}
                   <div className="form-field">
                     <label className="input-label">Organization Name</label>
-                    <div className={`input-field ${errors.organizationName ? 'border-2 border-red-600' : ''}`}>
-                      <i className="bi bi-envelope-fill body-text text-dark"></i>
+                    <div
+                      className={`input-field ${
+                        formik.touched.organizationName && formik.errors.organizationName
+                          ? "border-2 border-red-600"
+                          : ""
+                      }`}
+                    >
+                      <Building2 size={20} className="text-dark" />
                       <input
                         type="text"
+                        name="organizationName"
                         className="input text-dark"
                         placeholder="Brew Holdings"
-                        {...register("organizationName",{required:true})}
-                        aria-invalid={errors.organizationName ? 'true' : 'false'}
+                        {...formik.getFieldProps("organizationName")}
                       />
                     </div>
-                    {errors.email?.type === 'required' && <p role="alert" className='text-sm text-red-600'>Organization Name is required</p>}
+                    {formik.touched.organizationName && formik.errors.organizationName && (
+                      <p className="text-sm text-red-600">{formik.errors.organizationName}</p>
+                    )}
                   </div>
 
+                  {/* Designation */}
                   <div className="form-field">
-                    <label className="input-label">Your role</label>
-                    <div className={`input-field ${errors.role ? 'border-2 border-red-600' : ''}`}>
-                      <i className="bi bi-envelope-fill body-text text-dark"></i>
+                    <label className="input-label">Designation</label>
+                    <div
+                      className={`input-field ${
+                        formik.touched.designation && formik.errors.designation
+                          ? "border-2 border-red-600"
+                          : ""
+                      }`}
+                    >
+                      <Briefcase size={20} className="text-dark" />
                       <input
                         type="text"
+                        name="designation"
                         className="input text-dark"
                         placeholder="Sponsorships Manager"
-                        {...register("role",{required:true})}
-                        aria-invalid={errors.role ? 'true' : 'false'}
+                        {...formik.getFieldProps("designation")}
                       />
                     </div>
-                    {errors.email?.type === 'required' && <p role="alert" className='text-sm text-red-600'>Role is required</p>}
+                    {formik.touched.designation && formik.errors.designation && (
+                      <p className="text-sm text-red-600">{formik.errors.designation}</p>
+                    )}
                   </div>
-
 
                   {/* Password */}
                   <div className="form-field">
                     <label className="input-label">Password</label>
-                    <div className={`input-field ${errors.password ? 'border-2 border-red-600' : ''}`}>
-                      <i className="bi bi-lock-fill body-text text-dark"></i>
+                    <div
+                      className={`input-field ${
+                        formik.touched.password && formik.errors.password
+                          ? "border-2 border-red-600"
+                          : ""
+                      }`}
+                    >
+                      <Lock size={20} className="text-dark" />
                       <input
                         type="password"
+                        name="password"
                         className="input text-dark"
                         placeholder="••••••••"
                         autoComplete="new-password"
-                        {...register("password",{required:true,minLength:8})}
-                        aria-invalid={errors.password ? 'true' : 'false'}
+                        {...formik.getFieldProps("password")}
                       />
                     </div>
-                    {errors.password?.type === 'required' && <p role="alert" className='text-sm text-red-600'>Password is required</p>}
-                    {errors.password?.type === 'minLength' && <p role="alert" className='text-sm text-red-600'>Password must be at least 8 characters</p>}
+                    {formik.touched.password && formik.errors.password && (
+                      <p className="text-sm text-red-600">{formik.errors.password}</p>
+                    )}
                   </div>
-                  <div className="form-field">
-                    <div className="input-field">
-                      <input
-                        type="submit"
-                        value="Create Account"
-                        disabled={mutation.isPending}
-                        className="btn-primary w-full cursor-pointer disabled:bg-primary-light disabled:cursor-not-allowed"
-                      />
+
+                  <div className="form-field mt-md">
+                    <div
+                      className="input-field flex justify-center h-12"
+                      style={{ padding: 0, border: "none" }}
+                    >
+                      {formik.isSubmitting ? (
+                        <button className="btn-primary w-full cursor-not-allowed h-full">
+                          <CircularProgress size={16} sx={{ color: "white" }} />
+                        </button>
+                      ) : (
+                        <input
+                          type="submit"
+                          value="Create Account"
+                          className="btn-primary w-full cursor-pointer h-full"
+                          disabled={formik.isSubmitting}
+                        />
+                      )}
                     </div>
                   </div>
                 </form>
@@ -170,7 +272,6 @@ export const SignupPage = () => {
             </div>
           </div>
         </div>
-        </FadeInWhenVisible>
       </section>
     </>
   );

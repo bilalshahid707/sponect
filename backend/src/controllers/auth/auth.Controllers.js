@@ -22,15 +22,15 @@ const cookieOptions = {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-    const {fullName,email,phone,accountType,designation,password,organizationName} = req.body
-    const newUser = await User.create({fullName,email,phone,accountType,designation,password})
+    const { fullName, email, phone, accountType, designation, password, organizationName } = req.body
+    const newUser = await User.create({ fullName, email, phone, accountType, designation, password })
 
-    if (accountType==="sponsor"){
-        await Sponsor.create({userId:newUser.id,organizationName:organizationName})
-    }else if (accountType==="applicant"){
-        await Applicant.create({userId:newUser.id,organizationName:organizationName})
+    if (accountType === "sponsor") {
+        await Sponsor.create({ userId: newUser.id, organizationName: organizationName })
+    } else if (accountType === "applicant") {
+        await Applicant.create({ userId: newUser.id, organizationName: organizationName })
     }
-    
+
     const token = signToken(newUser)
     // sendMail(newUser, {
     //     subject: "Welcome to Sponect",
@@ -76,6 +76,8 @@ exports.signout = catchAsync(async (req, res, next) => {
     const cookieOptions = {
         expires: new Date(Date.now() + 5 * 1000),
         httpOnly: true,
+        secure: true,
+        sameSite: 'none'
     };
     res.cookie('jwt', 'loggedOut', cookieOptions);
     res.status(200).json({ status: 'success' });
@@ -85,8 +87,6 @@ exports.getUserData = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: "success",
-        data: {
-            user: req.user
-        }
+        data: req.user
     })
 })
