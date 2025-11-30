@@ -6,6 +6,6 @@ const uploadMiddleware = require('../middlewares/upload.middlewares');
 const multerUpload = require("../config/multer");
 
 Router.get("/me",auth.protect,controller.getUser)
-Router.patch("/me",auth.protect,multerUpload.single("profileImage"),uploadMiddleware.uploadFile,controller.updateUser)
+Router.patch("/me",auth.protect,multerUpload.single("profileImage"),uploadMiddleware.uploadProfileImage,controller.updateUser)
 
 module.exports = Router

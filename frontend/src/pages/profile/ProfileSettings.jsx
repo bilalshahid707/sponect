@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
-import validator from "validator";
-import { useUpdateSettings, BasicAlert } from "../../imports";
+import { useUpdateSettings } from "../../hooks/useUpdateSettings";
+import { BasicAlert } from "../../components";
 import CircularProgress from "@mui/material/CircularProgress";
+import { profileSchema } from "../../utils/";
 
 export const ProfileSettings = () => {
   const queryClient = useQueryClient();
@@ -26,31 +27,9 @@ export const ProfileSettings = () => {
 
     enableReinitialize: true,
 
-    validate: (values) => {
-      const errors = {};
+    validationSchema: profileSchema,
 
-      if (!values.fullName) {
-        errors.fullName = "Full Name is required";
-      }
-
-      if (!values.email) {
-        errors.email = "Valid email is required";
-      } else if (!validator.isEmail(values.email)) {
-        errors.email = "Please enter valid email";
-      }
-
-      if (!values.phone) {
-        errors.phone = "Phone number is required";
-      }
-
-      if (!values.designation) {
-        errors.designation = "Designation is required";
-      }
-
-      return errors;
-    },
-
-    onSubmit: (values,{setSubmitting}) => {
+    onSubmit: (values, { setSubmitting }) => {
       mutation.mutate(values, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["user"] });
@@ -61,9 +40,9 @@ export const ProfileSettings = () => {
           setAlertMsg(error.response?.data?.message || error.message);
           setAlertSeverity("error");
         },
-        onSettled:()=>{
-          setSubmitting(false)
-        }
+        onSettled: () => {
+          setSubmitting(false);
+        },
       });
     },
   });
@@ -229,9 +208,14 @@ export const ProfileSettings = () => {
 
         {/* Submit Button */}
         <div className="form-field mt-md">
-          <div className="input-field flex justify-center h-12" style={{ padding: 0, border: "none" }}>
+          <div
+            className="input-field flex justify-center h-12"
+            style={{ padding: 0, border: "none" }}
+          >
             {formik.isSubmitting ? (
-              <button className="btn-primary w-full cursor-not-allowed h-full"><CircularProgress size={16} sx={{ color: "white" }} /></button>
+              <button className="btn-primary w-full cursor-not-allowed h-full">
+                <CircularProgress size={16} sx={{ color: "white" }} />
+              </button>
             ) : (
               <input
                 type="submit"

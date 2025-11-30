@@ -1,0 +1,1 @@
+export const categories = ['events','ngos','athletes','startups','creator','other']

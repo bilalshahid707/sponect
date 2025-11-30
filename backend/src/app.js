@@ -7,7 +7,6 @@ const morgan = require("morgan")
 // Importing routers
 const authRouter = require("./routes/auth.routes");
 const userRouter = require("./routes/user.routes")
-const applicantRouter = require('./routes/applicant.routes')
 const sponsorRouter = require('./routes/sponsor.routes')
 
 const app = express()
@@ -38,7 +37,6 @@ app.use(helmet())
 // app.use("/api/v1/waitlist",waitListRouter)
 app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/users",userRouter)
-app.use("/api/v1/applicants",applicantRouter)
 app.use("/api/v1/sponsors",sponsorRouter)
 
 

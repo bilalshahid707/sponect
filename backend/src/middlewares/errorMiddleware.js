@@ -44,7 +44,8 @@ const sendErrorDev = (err,req,res,next)=>{
         res.status(500).json({
             status:'error',
             message:'something went wrong',
-            error:err
+            error:err,
+            name:err.name
         })
     }
 }

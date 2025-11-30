@@ -9,14 +9,9 @@ export const loginSchema = Yup.object({
 });
 
 export const signupSchema = Yup.object({
-  fullName: Yup.string().required("Full name is required"),
+  fullName:Yup.string().required("Full name is require"),
   email: Yup.string().email("Invalid email").required("Email is required"),
-  phone: Yup.string()
-    .matches(/[0-9+\s()-]{7,}/, "Enter a valid phone number")
-    .required("Phone number is required"),
   accountType: Yup.string().required("Please select an account type"),
-  organizationName: Yup.string().required("Organization Name is required"),
-  designation: Yup.string().required("Designation is required"),
   password: Yup.string()
     .min(8, "Password must be at least 8 characters")
     .required("Password is required"),

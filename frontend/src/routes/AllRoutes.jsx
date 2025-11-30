@@ -1,21 +1,24 @@
 import React from "react"
 import { Routes,Route } from "react-router-dom"
-import { HomePage,LoginPage,SignupPage,PrivateRoute,ProfileLayout,OrganizationSettings,ProfileSettings } from "../imports"
+import { ProtectedRoutes } from "./ProtectedRoutes"
+
+import {HomePage,SigninPage,SignupPage,ProfileLayout,ProfileSettings,CreateSponsor} from "../pages"
 
 export const AllRoutes = ()=>{
     return (
         <>
         <Routes>
             <Route path="/" element={<HomePage/>}/>
-            <Route path="/login" element={<LoginPage/>}/>
-            <Route path="signup" element={<SignupPage/>}/>
+            <Route path="/signin" element={<SigninPage/>}/>
+            <Route path="/signup" element={<SignupPage/>}/>
 
             {/* settings */}
-            <Route element={<PrivateRoute/>}>
+            <Route element={<ProtectedRoutes/>}>
             <Route path="/profile" element={<ProfileLayout/>}>
                 <Route index element={<ProfileSettings/>}/>
-                <Route path="organization" element={<OrganizationSettings/>} />
             </Route>
+
+            <Route path="/sponsors/create" element={<CreateSponsor/>}/>
             </Route>
         </Routes>
         </>

@@ -45,7 +45,7 @@ const Sponsor = sequelize.define(
       type: DataTypes.JSON,
       allowNull: true,
     },
-    profileImage: {
+    logo: {
       type: DataTypes.JSON,
       allowNull: true,
     },
