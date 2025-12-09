@@ -1,13 +1,17 @@
-import { Header, Footer, AllRoutes } from "./imports";
+import { Header, Footer } from "./components";
+import { AllRoutes } from "./routes";
 import { useQuery } from "@tanstack/react-query";
 import { setUser, logUser } from "./services/UserAuth";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
 import { useEffect } from "react";
 
+const API_URL = import.meta.env.VITE_APP_API_URL;
+
 function App() {
-  const API_URL = import.meta.env.VITE_APP_API_URL;
+  const location = useLocation()
   const dispatch = useDispatch();
 
   const { data: user } = useQuery({
@@ -33,9 +37,9 @@ function App() {
 
   return (
     <>
-      <Header />
+      {location.pathname.startsWith('/dashboard')?'':<Header />}
       <AllRoutes />
-      <Footer />
+      {location.pathname.startsWith('/dashboard')?'':<Footer />}
     </>
   );
 }

@@ -12,10 +12,13 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.5",
+    "@mui/joy": "^5.0.0-beta.52",
     "@mui/material": "^7.3.4",
     "@reduxjs/toolkit": "^2.9.2",
     "@tailwindcss/vite": "^4.1.16",
     "@tanstack/react-query": "^5.90.5",
+    "@thecompaniesapi/sdk": "^1.2.18",
     "axios": "^1.12.2",
     "formik": "^2.4.9",
     "lucide-react": "^0.544.0",
@@ -25,7 +28,8 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.5",
     "tailwindcss": "^4.1.16",
-    "validator": "^13.15.23"
+    "validator": "^13.15.23",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

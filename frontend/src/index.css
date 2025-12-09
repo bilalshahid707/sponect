@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 /* ============================================
    TAILWIND CSS v4 THEME CONFIGURATION
@@ -7,56 +7,86 @@
 @theme {
   /* ========== Color Palette ========== */
 
-  /* Primary Colors - Blue */
-  --color-primary: #3b82f6;
-  --color-primary-hover: #2563eb;
-  --color-primary-light: #60a5fa;
-  --color-primary-dark: #1d4ed8;
+  /* Primary Colors - Orange */
+  --color-primary: #ff751f;
+  --color-primary-hover: #e5671b;
+  --color-primary-light: #ff9a4d;
+  --color-primary-dark: #cc5e18;
 
-  --color-dark: #111827; /* Main dark */
-  --color-dark-hover: #1f2937; /* Slightly lighter on hover */
-  --color-dark-light: #374151; /* For lighter backgrounds */
-  --color-dark-lighter: #4b5563; /* For subtle accents */
+  /* Dark Colors - Deep Teal */
+  --color-dark: #023740; /* Main dark */
+  --color-dark-hover: #034653; /* Slightly lighter on hover */
+  --color-dark-light: #045769; /* For lighter backgrounds */
+  --color-dark-lighter: #06758c; /* For subtle accents */
 
+  /* White Colors */
   --color-white: #ffffff; /* Pure white - primary light color */
   --color-white-hover: #f9fafb; /* Slightly darker for hover states */
   --color-white-light: #f3f4f6; /* Soft gray-white for light backgrounds */
   --color-white-lighter: #e5e7eb; /* Subtle accent or border shade */
 
-
   /* ===== Spacing Scale ===== */
-  --space-sm: 0.5rem;   /* ~8px */
-  --space-md: 1rem;     /* ~16px */
-  --space-lg: 1.5rem;   /* ~24px */
-  --space-xl: 2rem;     /* ~32px */
-  --space-2xl: 3rem;     /* ~48px */
-
-
-  
+  --space-sm: 0.5rem; /* ~8px */
+  --space-md: 1rem; /* ~16px */
+  --space-lg: 1.5rem; /* ~24px */
+  --space-xl: 2rem; /* ~32px */
+  --space-2xl: 3rem; /* ~48px */
 }
 
 /* Margin */
-.m-sm { margin: var(--space-sm); }
-.m-md { margin: var(--space-md); }
-.m-lg { margin: var(--space-lg); }
-.m-xl { margin: var(--space-xl); }
+.m-sm {
+  margin: var(--space-sm);
+}
+.m-md {
+  margin: var(--space-md);
+}
+.m-lg {
+  margin: var(--space-lg);
+}
+.m-xl {
+  margin: var(--space-xl);
+}
 
-.mt-sm { margin-top: var(--space-sm); }
-.mt-md { margin-top: var(--space-md); }
-.mt-lg { margin-top: var(--space-lg); }
-.mt-xl { margin-top: var(--space-xl); }
+.mt-sm {
+  margin-top: var(--space-sm);
+}
+.mt-md {
+  margin-top: var(--space-md);
+}
+.mt-lg {
+  margin-top: var(--space-lg);
+}
+.mt-xl {
+  margin-top: var(--space-xl);
+}
 
 /* Padding */
-.p-sm { padding: var(--space-sm); }
-.p-md { padding: var(--space-md); }
-.p-lg { padding: var(--space-lg); }
-.p-xl { padding: var(--space-xl); }
+.p-sm {
+  padding: var(--space-sm);
+}
+.p-md {
+  padding: var(--space-md);
+}
+.p-lg {
+  padding: var(--space-lg);
+}
+.p-xl {
+  padding: var(--space-xl);
+}
 
 /* Gaps */
-.gap-sm { gap: var(--space-sm); }
-.gap-md { gap: var(--space-md); }
-.gap-lg { gap: var(--space-lg); }
-.gap-xl { gap: var(--space-xl); }
+.gap-sm {
+  gap: var(--space-sm);
+}
+.gap-md {
+  gap: var(--space-md);
+}
+.gap-lg {
+  gap: var(--space-lg);
+}
+.gap-xl {
+  gap: var(--space-xl);
+}
 
 /* ============================================
 GLOBAL STYLES
@@ -69,11 +99,15 @@ GLOBAL STYLES
 } */
 
 body {
-   font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--color-gray-900);
-  background-color: var(--color-white);
+}
+
+input,
+textarea,
+select {
+  font-family: "Montserrat", sans-serif;
 }
 
 /* Focus Styles for Accessibility */
@@ -87,58 +121,51 @@ html {
   scroll-behavior: smooth;
 }
 
-
-
 /* ============================================
    CUSTOM UTILITY CLASSES
    ============================================ */
-.section{
-  @apply px-3 sm:px-8 pt-10
+.section {
+  @apply px-0 sm:px-0 pt-0;
 }
 
-.container{
-  @apply mx-auto max-w-7xl rounded-4xl px-4 sm:px-8 md:px-12 lg:px-16 py-10 sm:py-12 md:py-16 lg:py-20
+.container {
+  @apply mx-auto max-w-7xl px-2 sm:px-4 md:px-8 lg:px-12 py-8 sm:py-10 md:py-12 lg:py-14;
 }
 
-.gradient-bg{
-  @apply bg-[radial-gradient(circle_at_top_right,#3b82f6_0%,#111827_60%,#111827_100%)]
+.gradient-bg {
+  @apply bg-[radial-gradient(circle_at_top_right,#3b82f6_0%,#1F2937_60%,#1F2937_100%)];
 }
-.heading-primary{
-  @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight
+.heading-primary {
+  @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight;
 }
 
-.heading-secondary{
-  @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-snug
+.heading-secondary {
+  @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-snug;
 }
 
 .heading-tertiary {
   @apply text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold leading-snug;
 }
 
-.body-text{
-  @apply text-base sm:text-lg md:text-xl leading-relaxed
+.body-text {
+  @apply text-base sm:text-lg md:text-xl leading-relaxed;
 }
 
-.btn-primary{
-  @apply inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-white text-base sm:text-lg font-medium px-6 py-3 shadow-lg transition-all
+.btn-primary {
+  @apply inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm sm:text-lg font-medium px-6 py-2 shadow-lg transition-all;
 }
 
-.border-accent-shape {
-  @apply absolute rounded-3xl top-[12.5%] right-[12.5%] w-full h-full -z-10;
+.form-field {
+  @apply flex flex-col gap-(--space-sm) w-full;
 }
 
-.form-field{
-  @apply flex flex-col gap-(--space-sm) w-full
+.input-field {
+  @apply flex items-center rounded-sm pr-(--space-sm) pl-(--space-sm)  bg-white-lighter w-full;
+}
+.input-label {
+  @apply text-base sm:text-sm leading-relaxed  text-black;
 }
 
-.input-field{
-  @apply flex items-center rounded-xl pr-(--space-sm) pl-(--space-sm)  bg-white-lighter w-full
-}
-
-.input-label{
-  @apply text-base sm:text-lg md:text-xl leading-relaxed  text-dark
-}
-
-.input{
-  @apply p-(--space-md) border-none focus:border-none focus:outline-none bg-transparent grow text-sm md:text-lg leading-relaxed
+.input {
+  @apply bg-white-lighter grow text-base md:text-sm leading-relaxed text-black transition-all duration-150;
 }

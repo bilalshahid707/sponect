@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logUser, setUser } from "../services/UserAuth";
+import { logUser } from "../services/UserAuth";
 import { useQueryClient } from "@tanstack/react-query";
 
 const API_URL = import.meta.env.VITE_APP_API_URL;
@@ -26,9 +26,6 @@ export const useAuth = (endpoint) => {
       dispatch(logUser(true));
       queryClient.invalidateQueries({ queryKey: ["user"] });
       navigate("/");
-    },
-    onError: (error) => {
-      alert(error.response?.data?.message || error.message);
     },
   });
 

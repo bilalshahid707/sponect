@@ -1,6 +1,4 @@
 const User = require('../../models/user.model')
-const Sponsor = require('../../models/sponsor.model')
-const Applicant = require('../../models/applicant.model')
 const jwt = require('jsonwebtoken')
 const catchAsync = require('../../utils/CatchAsync')
 const AppError = require('../../utils/AppError')
@@ -21,15 +19,9 @@ const cookieOptions = {
     sameSite: 'none'
 };
 
-exports.signup = catchAsync(async (req, res, next) => {
-    const { fullName, email, phone, accountType, designation, password, organizationName } = req.body
-    const newUser = await User.create({ fullName, email, phone, accountType, designation, password })
-
-    if (accountType === "sponsor") {
-        await Sponsor.create({ userId: newUser.id, organizationName: organizationName })
-    } else if (accountType === "applicant") {
-        await Applicant.create({ userId: newUser.id, organizationName: organizationName })
-    }
+exports.signup = catchAsync(async (req, res) => {
+    const { email, accountType,password } = req.body
+    const newUser = await User.create({ email, accountType, password })
 
     const token = signToken(newUser)
     // sendMail(newUser, {
@@ -82,11 +74,3 @@ exports.signout = catchAsync(async (req, res, next) => {
     res.cookie('jwt', 'loggedOut', cookieOptions);
     res.status(200).json({ status: 'success' });
 });
-
-exports.getUserData = catchAsync(async (req, res, next) => {
-
-    res.status(200).json({
-        status: "success",
-        data: req.user
-    })
-})

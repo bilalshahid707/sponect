@@ -10,7 +10,7 @@ const User = sequelize.define('User', {
     },
     fullName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     email: {
         type: DataTypes.STRING,
@@ -25,19 +25,19 @@ const User = sequelize.define('User', {
     },
     phone: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true,
         validate: {
             isNumeric: true
         }
     },
     accountType: {
-        type: DataTypes.ENUM("applicant", "sponsor"),
+        type: DataTypes.ENUM("sponsee", "sponsor"),
         allowNull: false
     },
     designation: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         set(value) {
             this.setDataValue('designation', value.toLowerCase())
         }

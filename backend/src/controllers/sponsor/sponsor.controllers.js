@@ -25,7 +25,7 @@ exports.updateSponsor = catchAsync(async (req, res, next) => {
         "socialLinks",
         "budgetRange",
         "preferences",
-        "profileImage",
+        "logo",
         "status",
     ];
 
@@ -36,7 +36,7 @@ exports.updateSponsor = catchAsync(async (req, res, next) => {
     })
     // setting profile image
     if(req.image){
-        filteredBody["profileImage"]=req.image
+        filteredBody["logo"]=req.image
     }
 
     const sponsor = await Sponsor.findOne({ where: { userId: userId } })
