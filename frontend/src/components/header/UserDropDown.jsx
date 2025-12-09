@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import Avatar from "../../assets/avatar.webp";
-import { UserInfo } from "./UserInfo";
 import { UserNav } from "./UserNav";
+import { AccountOverview } from "../common/AccountOverview";
 
 export const UserDropDown = ({ user }) => {
   const [open, setOpen] = useState(false);
@@ -36,8 +36,7 @@ export const UserDropDown = ({ user }) => {
             p-md  z-50 
           "
         >
-          <UserInfo user={user} />
-          
+          <AccountOverview />
           <UserNav />
         </div>
       )}

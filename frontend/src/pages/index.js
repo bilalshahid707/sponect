@@ -5,9 +5,11 @@ export {HomePage}  from './home/HomePage';
 export { SigninPage } from './auth/SigninPage';
 export { SignupPage } from './auth/SignupPage';
 
-// Profile Pages
-export { ProfileLayout } from './profile/ProfileLayout';
-export { ProfileSettings } from "./profile/ProfileSettings"
+// Account Pages
+export { AccountSettings } from "./account/AccountSettings"
 
 // sponsor pages
-export {CreateSponsor} from "./sponsor/CreateSponsor"
+export {SponsorSettings} from "./sponsor/SponsorSettings"
+
+// dashboard pages
+export {Dashboard} from "./dashboard/Dashboard"

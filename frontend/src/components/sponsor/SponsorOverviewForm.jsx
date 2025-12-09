@@ -1,32 +1,24 @@
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import { BasicAlert } from ".."; // Assuming BasicAlert is available
-import { MapPin, Briefcase, Calendar } from "lucide-react"; // Icons for Business Details
+import { BasicAlert } from "../../components";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import WorkIcon from "@mui/icons-material/Work";
+import {
+  Input,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Textarea,
+  Button,
+  Autocomplete,
+  Box,
+  Typography,
+} from "@mui/joy";
 
-// --- Utility: Sample Brand Schema (similar to how loginSchema works) ---
-const brandSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Name is required"),
-  tagline: Yup.string().max(100, "Too Long!"),
-  description: Yup.string()
-    .min(30, "Must be at least 30 characters")
-    .max(300, "Max 300 characters")
-    .required("Description is required"),
-  location: Yup.string().required("Location is required"),
-  industry: Yup.string().required("Industry is required"),
-  founded: Yup.number()
-    .min(1800, "Year seems too old")
-    .max(new Date().getFullYear(), "Cannot be a future year")
-    .required("Founding year is required"),
-});
+import { UploadPhoto } from "../../components";
+import { sponsorProfileSchema } from "../../utils/validationSchemas";
 
-// --- Form Component ---
-
-export const SponsorOverviewForm = ({ activeTab }) => {
+export const SponsorOverviewForm = () => {
   const [alertMsg, setAlertMsg] = useState(null);
   const [alertSeverity, setAlertSeverity] = useState();
 
@@ -37,263 +29,201 @@ export const SponsorOverviewForm = ({ activeTab }) => {
       description: "",
       location: "",
       industry: "",
-      founded: new Date().getFullYear(), // Default to current year
+      founded: new Date().getFullYear(),
     },
-    validationSchema: brandSchema,
+    validationSchema: sponsorProfileSchema,
     onSubmit: (values, { setSubmitting, resetForm }) => {
-      setAlertMsg(null); // Clear previous alerts
-
-      // Simulate API call delay
-      setTimeout(() => {
-        console.log("Form submitted with:", values);
-
-        // Simulate success
-        setAlertMsg("Brand details saved successfully!");
-        setAlertSeverity("success");
-        // resetForm(); // Uncomment to clear form on success
-
-        setSubmitting(false);
-      }, 1500);
+      console.log(values);
+      setSubmitting(false);
     },
   });
 
-  // Example industry and location options for dropdowns/autocomplete
-  const industryOptions = [
-    "Technology",
-    "Healthcare",
-    "Finance",
-    "Retail",
-    "Manufacturing",
-  ];
-  const locationOptions = ["New York", "London", "Tokyo", "Paris", "Lahore"];
+  return (
+    <>
+      {alertMsg && (
+        <BasicAlert
+          message={alertMsg}
+          severity={alertSeverity}
+          setAlertMsg={setAlertMsg}
+        />
+      )}
 
-  if (activeTab === 0) {
-    return (
-      <>
-        {alertMsg && (
-          <BasicAlert
-            message={alertMsg}
-            severity={alertSeverity}
-            setAlertMsg={setAlertMsg}
-          />
-        )}
+      <Box component="section">
+        <Box className="max-w-4xl mx-auto border-2 border-white-light p-lg rounded-md ">
+          <Box className="p-0.5 bg-white relative flex flex-col gap-lg">
+            <Box>
+              <Typography
+                level="title-lg"
+                className="pb-2 border-b-2 border-white-light"
+              >
+                Upload Logo
+              </Typography>
+            </Box>
 
-        <section className="section">
-          <div className="max-w-7xl mx-auto ">
-            <div className="p-0.5 bg-white relative flex flex-col gap-lg">
-              {/* Loading state when form is submitting */}
-              {formik.isSubmitting && (
-                <>
-                  <div className="absolute h-full w-full top-0 left-0 rounded-3xl flex items-center justify-center z-10">
-                    <CircularProgress size={40} sx={{ color: "#3b82f6" }} />
-                  </div>
-                  <div className="absolute bg-black opacity-5 h-full w-full top-0 left-0 rounded-3xl z-0"></div>
-                </>
-              )}
+            <Box className="upload-photo">
+              <UploadPhoto path={"/sponsors"} />
+            </Box>
 
-              <div>
-                <h3 className="heading-tertiary pb-2 border-b-2 border-dark-lighter">
-                  Overview
-                </h3>
-              </div>
+            <Box>
+              <Typography
+                level="title-lg"
+                className="pb-2 border-b-2 border-white-light"
+              >
+                Overview
+              </Typography>
+            </Box>
 
-              <div>
-                <form
-                  onSubmit={formik.handleSubmit}
-                  className="grid grid-cols-2 gap-lg"
+            <Box
+              component="form"
+              onSubmit={formik.handleSubmit}
+              className="grid grid-cols-2 gap-sm"
+            >
+              <FormControl
+                error={formik.touched.name && formik.errors.name}
+                className="col-span-2"
+              >
+                <FormLabel className="input-label">Name</FormLabel>
+                <Input
+                  type="text"
+                  name="name"
+                  placeholder="e.g., Quantum Innovations Inc."
+                  {...formik.getFieldProps("name")}
+                />
+                {formik.touched.name && formik.errors.name && (
+                  <FormHelperText>{formik.errors.name}</FormHelperText>
+                )}
+              </FormControl>
+
+              <FormControl
+                className="col-span-2"
+                error={
+                  formik.touched.description &&
+                  Boolean(formik.errors.description)
+                }
+              >
+                <FormLabel className="input-label">Description</FormLabel>
+                <Textarea
+                  name="description"
+                  minRows={4}
+                  placeholder="Describe your company's mission, values, and primary services in 4 to 6 sentences."
+                  {...formik.getFieldProps("description")}
+                />
+
+                {formik.touched.description && formik.errors.description && (
+                  <FormHelperText>{formik.errors.description}</FormHelperText>
+                )}
+              </FormControl>
+
+              <FormControl
+                error={formik.touched.tagline && Boolean(formik.errors.tagline)}
+              >
+                <FormLabel>Tagline</FormLabel>
+                <Input
+                  type="text"
+                  name="tagline"
+                  placeholder="e.g., Building the future, today."
+                  {...formik.getFieldProps("tagline")}
+                />
+
+                {formik.touched.tagline && formik.errors.tagline && (
+                  <FormHelperText>{formik.errors.tagline}</FormHelperText>
+                )}
+              </FormControl>
+
+              <FormControl
+                error={
+                  formik.touched.location && Boolean(formik.errors.location)
+                }
+              >
+                <FormLabel>Location</FormLabel>
+
+                <Autocomplete
+                  startDecorator={
+                    <LocationOnIcon sx={{ color: "dark.main", fontSize: 20 }} />
+                  }
+                  autoSelect
+                  // placeholder={locationOptions[0]}
+                  options={[]}
+                  value={formik.values.location}
+                  onChange={(e, newValue) => {
+                    formik.setFieldValue("location", newValue);
+                  }}
+                  onBlur={() => formik.setFieldTouched("location", true)}
+                />
+
+                {formik.touched.location && formik.errors.location && (
+                  <FormHelperText>{formik.errors.location}</FormHelperText>
+                )}
+              </FormControl>
+
+              <FormControl
+                error={
+                  formik.touched.industry && Boolean(formik.errors.industry)
+                }
+              >
+                <FormLabel>Industry</FormLabel>
+
+                <Autocomplete
+                  startDecorator={
+                    <WorkIcon sx={{ color: "dark.main", fontSize: 20 }} />
+                  }
+                  // placeholder={industryOptions[0]}
+                  options={[]}
+                  value={formik.values.industry}
+                  onChange={(e, newValue) => {
+                    formik.setFieldValue("industry", newValue);
+                  }}
+                  onBlur={() => formik.setFieldTouched("industry", true)}
+                />
+
+                {formik.touched.industry && formik.errors.industry && (
+                  <FormHelperText>{formik.errors.industry}</FormHelperText>
+                )}
+              </FormControl>
+
+              <FormControl
+                error={formik.touched.founded && Boolean(formik.errors.founded)}
+              >
+                <FormLabel className="input-label">Founded (Year)</FormLabel>
+
+                <Input
+                  type="number"
+                  name="founded"
+                  placeholder={new Date().getFullYear()}
+                  min="1900"
+                  max={new Date().getFullYear()}
+                  {...formik.getFieldProps("founded")}
+                />
+
+                {formik.touched.founded && formik.errors.founded && (
+                  <FormHelperText>{formik.errors.founded}</FormHelperText>
+                )}
+              </FormControl>
+
+              <Box className="col-span-2 mt-sm">
+                <Button
+                  type="submit"
+                  variant="solid"
+                  disabled={formik.isSubmitting}
+                  loading={formik.isSubmitting}
+                  sx={{
+                    width: "100%",
+                    backgroundColor: "primary.main",
+                    "&:hover": {
+                      backgroundColor: "primary.dark",
+                      transition: "0.15s ",
+                    },
+                  }}
                 >
-                  {/* 1. Name (Text input) */}
-                  <div className="form-field col-span-2">
-                    <label className="input-label">Name</label>
-                    <div
-                      className={`input-field ${
-                        formik.touched.name && formik.errors.name
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <input
-                        type="text"
-                        name="name"
-                        className="input text-dark"
-                        placeholder="e.g., Quantum Innovations Inc."
-                        {...formik.getFieldProps("name")}
-                      />
-                    </div>
-                    {formik.touched.name && formik.errors.name && (
-                      <p className="text-sm text-red-600">
-                        {formik.errors.name}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* 3. Description (Multiline textarea – 4 to 6 lines) */}
-                  <div className="form-field col-span-2">
-                    <label className="input-label">Description</label>
-                    <div
-                      className={`input-field p-0 ${
-                        // p-0 to allow textarea internal padding
-                        formik.touched.description && formik.errors.description
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <textarea
-                        name="description"
-                        className="input text-dark w-full resize-none p-3 h-32" // Added h-32 for 4-6 lines
-                        placeholder="Describe your company's mission, values, and primary services in 4 to 6 sentences."
-                        {...formik.getFieldProps("description")}
-                      />
-                    </div>
-                    {formik.touched.description &&
-                      formik.errors.description && (
-                        <p className="text-sm text-red-600">
-                          {formik.errors.description}
-                        </p>
-                      )}
-                  </div>
-
-                  <div className="form-field">
-                    <label className="input-label">Tagline</label>
-                    <div
-                      className={`input-field ${
-                        formik.touched.tagline && formik.errors.tagline
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <input
-                        type="text"
-                        name="tagline"
-                        className="input text-dark"
-                        placeholder="e.g., Building the future, today."
-                        {...formik.getFieldProps("tagline")}
-                      />
-                    </div>
-                    {formik.touched.tagline && formik.errors.tagline && (
-                      <p className="text-sm text-red-600">
-                        {formik.errors.tagline}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* 4. Location (Auto-suggest / dropdown text input) */}
-                  <div className="form-field">
-                    <label className="input-label">Location</label>
-                    <div
-                      className={`input-field ${
-                        formik.touched.location && formik.errors.location
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <MapPin size={20} className="text-dark" />
-                      <select
-                        name="location"
-                        className="input text-dark appearance-none bg-transparent" // Use select for dropdown and style it like input
-                        {...formik.getFieldProps("location")}
-                      >
-                        <option value="" disabled>
-                          Select a primary location
-                        </option>
-                        {locationOptions.map((loc) => (
-                          <option key={loc} value={loc}>
-                            {loc}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    {formik.touched.location && formik.errors.location && (
-                      <p className="text-sm text-red-600">
-                        {formik.errors.location}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* 5. Industry (Dropdown) */}
-                  <div className="form-field">
-                    <label className="input-label">Industry</label>
-                    <div
-                      className={`input-field ${
-                        formik.touched.industry && formik.errors.industry
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <Briefcase size={20} className="text-dark" />
-                      <select
-                        name="industry"
-                        className="input text-dark appearance-none bg-transparent"
-                        {...formik.getFieldProps("industry")}
-                      >
-                        <option value="" disabled>
-                          Select an industry
-                        </option>
-                        {industryOptions.map((ind) => (
-                          <option key={ind} value={ind}>
-                            {ind}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    {formik.touched.industry && formik.errors.industry && (
-                      <p className="text-sm text-red-600">
-                        {formik.errors.industry}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* 6. Founded (Year picker - implemented as number input with validation) */}
-                  <div className="form-field">
-                    <label className="input-label">Founded (Year)</label>
-                    <div
-                      className={`input-field ${
-                        formik.touched.founded && formik.errors.founded
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <Calendar size={20} className="text-dark" />
-                      <input
-                        type="number"
-                        name="founded"
-                        className="input text-dark"
-                        placeholder="YYYY"
-                        min="1800"
-                        max={new Date().getFullYear()}
-                        {...formik.getFieldProps("founded")}
-                      />
-                    </div>
-                    {formik.touched.founded && formik.errors.founded && (
-                      <p className="text-sm text-red-600">
-                        {formik.errors.founded}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="form-field col-span-2">
-                    <div
-                      className="input-field flex justify-center h-12"
-                      style={{ padding: 0, border: "none" }}
-                    >
-                      <input
-                        type="submit"
-                        value="Save Details"
-                        className="btn-primary w-full cursor-pointer h-full"
-                        disabled={formik.isSubmitting}
-                      />
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-      </>
-    );
-  } else {
-    return <></>;
-  }
+                  Save Changes
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </>
+  );
 };
 
 export default SponsorOverviewForm;

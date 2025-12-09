@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { UserDropDown } from "./UserDropDown";
 import { Navbar } from "./Navbar";
 import { UserNav } from "./UserNav";
-import { UserInfo } from "./UserInfo";
+import AccountOverview from "../common/AccountOverview";
 
 export const Header = () => {
   const loggedIn = useSelector((state) => state.User.LoggedIn);
@@ -13,11 +13,11 @@ export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full px-2 sm:px-4">
+    <header className="w-full">
       <div
         initial="hidden"
         animate="visible"
-        className={`max-w-7xl mx-auto rounded-2xl rounded-tl-none rounded-tr-none bg-dark px-(--space-lg) sm:px-(--space-xl) lg:px-(--space-2xl) py-(--space-md) flex items-center justify-between`}
+        className={`max-w-7xl mx-auto bg-dark px-(--space-lg) sm:px-(--space-xl) lg:px-(--space-2xl) py-(--space-md) flex items-center justify-between`}
       >
         {/* Logo */}
         <div className="text-white font-bold text-xl">Logo</div>
@@ -59,7 +59,7 @@ export const Header = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="bg-dark rounded-2xl mt-3 p-lg flex flex-col gap-lg md:hidden">
-          <UserInfo user={user} />
+          <AccountOverview/>
           <Navbar />
           <UserNav />
           {/* CTA Button in mobile menu */}

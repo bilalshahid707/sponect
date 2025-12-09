@@ -1,23 +1,26 @@
 // Common Components
-export { BasicAlert } from './common/BasicAlert';
-export { FadeInWhenVisible } from './common/FadeInWhenVisible';
+export { BasicAlert } from "./common/BasicAlert";
+export { FadeInWhenVisible } from "./common/FadeInWhenVisible";
+export { AccountOverview } from "./common/AccountOverview";
+
+// dashboard
+export { Sidebar } from "./dashboard/Sidebar";
+export { UploadPhoto } from "./dashboard/UploadPhoto";
 
 // Footer Components
-export { Footer } from './footer/Footer';
+export { Footer } from "./footer/Footer";
 
 // Header Components
-export { Header } from './header/Header';
-export { UserDropDown } from './header/UserDropDown';
+export { Header } from "./header/Header";
+export { UserDropDown } from "./header/UserDropDown";
 
 // Home Components
-export {StepCard} from "./home/StepCard"
+export { StepCard } from "./home/StepCard";
 
-// Profile 
-export {SideBar} from "./profile/SideBar"
-export {ProfileHeader} from "./profile/ProfileHeader"
+// Account
+export { BasicSettings } from "./account/BasicSettings";
 
 // Sponsor
-export {SponsorOverviewForm} from "./sponsor/SponsorOverviewForm"
-export {SponsorPreferencesForm} from "./sponsor/SponsorPreferencesForm"
-export {SponsorSocialsForm} from "./sponsor/SponsorSocialsForm"
-
+export { SponsorOverviewForm } from "./sponsor/SponsorOverviewForm";
+export { SponsorPreferencesForm } from "./sponsor/SponsorPreferencesForm";
+export { SponsorSocialsForm } from "./sponsor/SponsorSocialsForm";

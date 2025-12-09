@@ -1,8 +1,8 @@
 import React from "react"
 import { Routes,Route } from "react-router-dom"
-import { ProtectedRoutes } from "./ProtectedRoutes"
 
-import {HomePage,SigninPage,SignupPage,ProfileLayout,ProfileSettings,CreateSponsor} from "../pages"
+
+import {HomePage,SigninPage,SignupPage,SponsorSettings,AccountSettings,Dashboard} from "../pages"
 
 export const AllRoutes = ()=>{
     return (
@@ -11,14 +11,15 @@ export const AllRoutes = ()=>{
             <Route path="/" element={<HomePage/>}/>
             <Route path="/signin" element={<SigninPage/>}/>
             <Route path="/signup" element={<SignupPage/>}/>
+            {/* <Route path="/sponsors/create" element={<CreateSponsor/>}/> */}
 
             {/* settings */}
-            <Route element={<ProtectedRoutes/>}>
-            <Route path="/profile" element={<ProfileLayout/>}>
-                <Route index element={<ProfileSettings/>}/>
-            </Route>
+            {/* <Route element={<ProtectedRoutes/>}> */}
+            <Route path="/dashboard" element={<Dashboard/>}>
+                <Route index element={<AccountSettings/>}/>
+                <Route path="/dashboard/sponsor-settings" element={<SponsorSettings/>}/>
+            {/* </Route> */}
 
-            <Route path="/sponsors/create" element={<CreateSponsor/>}/>
             </Route>
         </Routes>
         </>

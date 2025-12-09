@@ -2,4 +2,4 @@
 export { applicantSteps, brandSteps } from "./steps";
 
 // Validation Schemas
-export { loginSchema,signupSchema,profileSchema,sponsorSchema,applicantSchema } from "./validationSchemas";
+export { loginSchema,signupSchema,profileSchema } from "./validationSchemas";

@@ -1,26 +1,28 @@
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import Chip from "@mui/material/Chip";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import PersonIcon from "@mui/icons-material/Person";
 import { BasicAlert } from "..";
-import { DollarSign, Clock, ListChecks } from "lucide-react";
 import { categories } from "../../utils/constants";
-
-// --- Utility: Sample Sponsorship Schema ---
-const sponsorshipSchema = Yup.object().shape({
-  minBudget: Yup.number()
-    .min(0, "Must be positive")
-    .required("Minimum budget is required"),
-  maxBudget: Yup.number()
-    .min(Yup.ref("minBudget"), "Max budget cannot be less than min budget")
-    .required("Maximum budget is required"),
-  durationPreference: Yup.string().required("Duration is required"),
-  sponsorshipTypes: Yup.array().min(1, "Select at least one sponsorship type"),
-  categories: Yup.array().min(1, "Select at least one category"),
-});
-
-// --- Form Component ---
+import { sponsorProfileSchema } from "../../utils/validationSchemas";
+import {
+  Input,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Textarea,
+  Select,
+  Option,
+  Checkbox,
+  Button,
+  Autocomplete,
+  RadioGroup,
+  Box,
+  Typography,
+} from "@mui/joy";
 
 export const SponsorPreferencesForm = ({ activeTab }) => {
   const [alertMsg, setAlertMsg] = useState(null);
@@ -33,217 +35,273 @@ export const SponsorPreferencesForm = ({ activeTab }) => {
       sponsorshipTypes: [],
       durationPreference: "",
       categories: [],
+      gender: "",
+      ageGroup: "",
     },
-    validationSchema: sponsorshipSchema,
+    validationSchema: sponsorProfileSchema,
     onSubmit: (values, { setSubmitting }) => {
       setAlertMsg(null);
 
       // Simulate API call delay
-      setTimeout(() => {
-        console.log("Sponsorship Details submitted with:", values);
-
-        // Simulate success
-        setAlertMsg("Sponsorship details saved successfully!");
-        setAlertSeverity("success");
-        setSubmitting(false);
-      }, 1500);
+      console.log(values);
+      setSubmitting(false);
     },
   });
 
-  if (activeTab == 1) {
-    return (
-      <>
-        {alertMsg && (
-          <BasicAlert
-            message={alertMsg}
-            severity={alertSeverity}
-            setAlertMsg={setAlertMsg}
-          />
-        )}
+  return (
+    <>
+      {alertMsg && (
+        <BasicAlert
+          message={alertMsg}
+          severity={alertSeverity}
+          setAlertMsg={setAlertMsg}
+        />
+      )}
 
-        <section className="section">
-          <div className="max-w-7xl mx-auto">
-            <div className="p-4  bg-white  relative ">
-              {/* Loading Overlay */}
-              {formik.isSubmitting && (
-                <>
-                  <div className="absolute h-full w-full top-0 left-0 rounded-3xl flex items-center justify-center z-10">
-                    <CircularProgress size={40} sx={{ color: "#3b82f6" }} />
-                  </div>
-                  <div className="absolute bg-black opacity-5 h-full w-full top-0 left-0 rounded-3xl z-0"></div>
-                </>
+      <Box component="section">
+        <Box className="max-w-4xl  mx-auto border-2 border-white-light p-lg rounded-md ">
+          <Box
+            component="form"
+            onSubmit={formik.handleSubmit}
+            className="grid grid-cols-2 gap-lg"
+          >
+            <Box className="col-span-2">
+              <Typography
+                level="title-lg"
+                className="pb-2 border-b-2 border-white-light"
+              >
+                Budget Details
+              </Typography>
+            </Box>
+            {/* Min Budget Field */}
+            <FormControl
+              error={
+                formik.touched.minBudget && Boolean(formik.errors.minBudget)
+              }
+            >
+              <FormLabel>Min Budget</FormLabel>
+              <Input
+                startDecorator={
+                  <AttachMoneyIcon sx={{ color: "dark.main", fontSize: 20 }} />
+                }
+                type="number"
+                name="maxBudget"
+                placeholder="Min Amount"
+                {...formik.getFieldProps("minBudget")}
+              />
+
+              {formik.touched.minBudget && formik.errors.minBudget && (
+                <FormHelperText>{formik.errors.minBudget}</FormHelperText>
               )}
+            </FormControl>
 
-              <div>
-                <form
-                  onSubmit={formik.handleSubmit}
-                  className="grid grid-cols-2 gap-lg"
-                >
-                  {/* Min Budget Field */}
-                  <div className="form-field">
-                    <label className="input-label">Min Budget</label>
-                    <div
-                      className={`input-field ${
-                        formik.touched.minBudget && formik.errors.minBudget
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <DollarSign size={20} className="text-dark" />
-                      <input
-                        type="number"
-                        name="minBudget"
-                        className="input text-dark"
-                        placeholder="Min Amount"
-                        {...formik.getFieldProps("minBudget")}
-                      />
-                    </div>
-                    {formik.touched.minBudget && formik.errors.minBudget && (
-                      <p className="text-sm text-red-600">
-                        {formik.errors.minBudget}
-                      </p>
-                    )}
-                  </div>
-                  {/* Max Budget Field */}
-                  <div className="form-field">
-                    <label className="input-label">Max Budget</label>
-                    <div
-                      className={`input-field ${
-                        formik.touched.maxBudget && formik.errors.maxBudget
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <DollarSign size={20} className="text-dark" />
-                      <input
-                        type="number"
-                        name="maxBudget"
-                        className="input text-dark"
-                        placeholder="Max Amount"
-                        {...formik.getFieldProps("maxBudget")}
-                      />
-                    </div>
-                    {formik.touched.maxBudget && formik.errors.maxBudget && (
-                      <p className="text-sm text-red-600">
-                        {formik.errors.maxBudget}
-                      </p>
-                    )}
-                  </div>
-                  {/* Duration Preference (Dropdown) */}
-                  <div className="form-field">
-                    {" "}
-                    {/* Adjusted width for a single field line */}
-                    <label className="input-label">Duration Preference</label>
-                    <div
-                      className={`input-field ${
-                        formik.touched.durationPreference &&
-                        formik.errors.durationPreference
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <Clock size={20} className="text-dark" />
-                      <select
-                        name="durationPreference"
-                        className="input text-dark appearance-none bg-transparent"
-                        {...formik.getFieldProps("durationPreference")}
-                      >
-                        <option value="" disabled>
-                          Select duration
-                        </option>
-                        <option value="short">Short-term (1-6 months)</option>
-                        <option value="one_time">One-time Event</option>
-                        <option value="long">Long-term (1+ years)</option>
-                      </select>
-                    </div>
-                    {formik.touched.durationPreference &&
-                      formik.errors.durationPreference && (
-                        <p className="text-sm text-red-600">
-                          {formik.errors.durationPreference}
-                        </p>
-                      )}
-                  </div>
-                  <div className="form-field">
-                    <label className="input-label">Sponsorship Type</label>
-                    <div
-                      className={`p-md flex gap-md rounded-xl ${
-                        formik.touched.categories && formik.errors.categories
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <div className="flex gap-sm">
-                        <input type="checkbox" value="cash" name="cash" />
-                        <span>cash</span>
-                      </div>
-                      <div className="flex gap-sm">
-                        <input type="checkbox" value="inkind" name="inkind" />
-                        <span>inkind (goods/services)</span>
-                      </div>
-                    </div>
-                    {formik.touched.sponsorshipTypes &&
-                      formik.errors.sponsorshipTypes && (
-                        <p className="text-sm text-red-600 mt-2">
-                          {formik.errors.sponsorshipTypes}
-                        </p>
-                      )}
-                  </div>
+            <FormControl
+              error={
+                formik.touched.maxBudget && Boolean(formik.errors.maxBudget)
+              }
+            >
+              <FormLabel>Max Budget</FormLabel>
+              <Input
+                startDecorator={
+                  <AttachMoneyIcon sx={{ color: "dark.main", fontSize: 20 }} />
+                }
+                type="number"
+                name="maxBudget"
+                placeholder="Max Amount"
+                {...formik.getFieldProps("maxBudget")}
+              />
 
-                  {/* Categories (Multi-select chips) */}
-                  <div className="form-field col-span-2">
-                    <label className="input-label">Categories</label>
-                    <div
-                      className={`p-md flex gap-md rounded-xl ${
-                        formik.touched.categories && formik.errors.categories
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <ListChecks size={20} className="text-dark" />
+              {formik.touched.maxBudget && formik.errors.maxBudget && (
+                <FormHelperText>{formik.errors.maxBudget}</FormHelperText>
+              )}
+            </FormControl>
 
-                      {categories.map((category) => (
-                        <div className="flex gap-sm">
-                          <input
-                            type="checkbox"
-                            value={category}
-                            key={categories.indexOf(category)}
-                            name={category}
-                          />
-                          <span>{category}</span>
-                        </div>
-                      ))}
-                    </div>
+            <Box className="col-span-2">
+              <Typography
+                level="title-lg"
+                className="pb-2 border-b-2 border-white-light"
+              >
+                Target Audience
+              </Typography>
+            </Box>
 
-                    {formik.touched.categories && formik.errors.categories && (
-                      <p className="text-sm text-red-600 mt-2">
-                        {formik.errors.categories}
-                      </p>
-                    )}
-                  </div>
-                  {/* Submit Button */}
-                  <div className="form-field col-span-2">
-                    <div
-                      className="input-field flex justify-center h-12"
-                      style={{ padding: 0, border: "none" }}
-                    >
-                      <input
-                        type="submit"
-                        value="Save Preferences"
-                        className="btn-primary w-full cursor-pointer h-full"
-                        disabled={formik.isSubmitting}
-                      />
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-      </>
-    );
-  } else {
-    return <></>;
-  }
+            <FormControl
+              error={formik.touched.ageGroup && Boolean(formik.errors.ageGroup)}
+            >
+              <FormLabel>Age Group</FormLabel>
+              <Select
+                startDecorator={
+                  <PersonIcon sx={{ color: "dark.main", fontSize: 20 }} />
+                }
+                name="ageGroup"
+                value={formik.values.ageGroup}
+                onChange={(e, newValue) => {
+                  formik.setFieldValue("ageGroup", newValue);
+                }}
+              >
+                <Option value="" disabled>
+                  Select Age Group
+                </Option>
+                <Option value="13-17">13-17 years</Option>
+                <Option value="18-24">18-24 years</Option>
+                <Option value="25-34">25-34 years</Option>
+                <Option value="35-44">35-44 years</Option>
+                <Option value="45-54">45-54 years</Option>
+                <Option value="55-64">55-64 years</Option>
+                <Option value="65+">65+ years</Option>
+              </Select>
+
+              {formik.touched.ageGroup && formik.errors.ageGroup && (
+                <FormHelperText className="text-sm text-red-600">
+                  {formik.errors.ageGroup}
+                </FormHelperText>
+              )}
+            </FormControl>
+
+            {/* Gender Field - Changed to a select dropdown for better user experience */}
+            <FormControl
+              error={formik.touched.gender && Boolean(formik.errors.gender)}
+            >
+              <FormLabel>Gender</FormLabel>
+              <Select
+                startDecorator={
+                  <PersonIcon sx={{ color: "dark.main", fontSize: 20 }} />
+                }
+                name="gender"
+                value={formik.values.gender}
+                onChange={(e, newValue) => {
+                  formik.setFieldValue("gender", newValue);
+                }}
+              >
+                <Option value="" disabled>
+                  Select Gender
+                </Option>
+                <Option value="male">Male</Option>
+                <Option value="female">Female</Option>
+                <Option value="other">Both</Option>
+              </Select>
+
+              {formik.touched.gender && formik.errors.gender && (
+                <FormHelperText>{formik.errors.gender}</FormHelperText>
+              )}
+            </FormControl>
+
+            <Box className="col-span-2">
+              <Typography
+                level="title-lg"
+                className="pb-2 border-b-2 border-white-light"
+              >
+                Other Preferences
+              </Typography>
+            </Box>
+
+            <FormControl
+              error={
+                formik.touched.durationPreference &&
+                Boolean(formik.errors.durationPreference)
+              }
+            >
+              <FormLabel>Duration Preference</FormLabel>
+
+              <Select
+                startDecorator={
+                  <AccessTimeIcon sx={{ color: "dark.main", fontSize: 20 }} />
+                }
+                name="durationPreference"
+                value={formik.values.durationPreference}
+                onChange={(e, newValue) => {
+                  formik.setFieldValue("durationPreference", newValue);
+                }}
+              >
+                <Option value="" disabled>
+                  Select duration
+                </Option>
+                <Option value="short">Short-term (1-6 months)</Option>
+                <Option value="oneTime">One-time Event</Option>
+                <Option value="long">Long-term (1+ years)</Option>
+              </Select>
+
+              {formik.touched.durationPreference &&
+                formik.errors.durationPreference && (
+                  <FormHelperText>
+                    {formik.errors.durationPreference}
+                  </FormHelperText>
+                )}
+            </FormControl>
+
+            <FormControl
+              error={
+                formik.touched.sponsorshipTypes &&
+                Boolean(formik.errors.sponsorshipTypes)
+              }
+            >
+              <FormLabel>Sponsorship Type</FormLabel>
+
+              <Autocomplete
+                multiple
+                options={["cash", "inkind"]}
+                value={formik.values.sponsorshipTypes}
+                onChange={(e, newValue) => {
+                  formik.setFieldValue("sponsorshipTypes", newValue);
+                }}
+                onBlur={() => formik.setFieldTouched("sponsorshipTypes", true)}
+              />
+
+              {formik.touched.sponsorshipTypes &&
+                formik.errors.sponsorshipTypes && (
+                  <FormHelperText>
+                    {formik.errors.sponsorshipTypes}
+                  </FormHelperText>
+                )}
+            </FormControl>
+
+            <FormControl
+              error={
+                formik.touched.categories && Boolean(formik.errors.categories)
+              }
+              className="col-span-2"
+            >
+              <FormLabel>Categories</FormLabel>
+
+              <Autocomplete
+                multiple
+                options={categories}
+                value={formik.values.categories}
+                onChange={(e, newValue) => {
+                  formik.setFieldValue("categories", newValue);
+                }}
+                onBlur={() => formik.setFieldTouched("categories", true)}
+              />
+
+              {formik.touched.categories && formik.errors.categories && (
+                <FormHelperText>{formik.errors.categories}</FormHelperText>
+              )}
+            </FormControl>
+
+            {/* Submit Button */}
+            <Box className="col-span-2 mt-sm">
+              <Button
+                type="submit"
+                variant="solid"
+                disabled={formik.isSubmitting}
+                loading={formik.isSubmitting}
+                sx={{
+                  width: "100%",
+                  backgroundColor: "primary.main",
+                  "&:hover": {
+                    backgroundColor: "primary.dark",
+                    transition: "0.15s ",
+                  },
+                }}
+              >
+                Save Changes
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </>
+  );
 };
 
 export default SponsorPreferencesForm;

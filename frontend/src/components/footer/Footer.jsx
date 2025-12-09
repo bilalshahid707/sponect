@@ -1,7 +1,7 @@
 export const Footer = () => {
   return (
     <section className="section">
-      <div className="container bg-dark rounded-b-none!">
+      <div className="container bg-dark">
         <div className="flex flex-col gap-(--space-xl)">
           {/* Logo */}
           <div className="text-white font-bold text-3xl">Logo</div>

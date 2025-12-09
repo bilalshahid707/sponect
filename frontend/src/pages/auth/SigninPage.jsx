@@ -4,8 +4,18 @@ import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { Mail, Lock } from "lucide-react";
-import CircularProgress from "@mui/material/CircularProgress";
 import { loginSchema } from "../../utils";
+import {
+  Box,
+  Typography,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Input,
+  Button,
+  Stack,
+  AspectRatio
+} from "@mui/joy";
 
 export const SigninPage = () => {
   const mutation = useAuth("signin");
@@ -46,127 +56,104 @@ export const SigninPage = () => {
         />
       )}
 
-      <section className="section">
-        <div className="container">
-          <div className="flex flex-col md:flex-row gap-xl">
-            <div className="flex flex-1 items-center justify-center p-md">
-              <h1 className="heading-secondary text-dark text-center">
-                Welcome Back!
-              </h1>
-            </div>
+      <Box component="section" className="bg-dark">
+        <Box className="container">
+          <Box className="p-4 md:p-8 bg-white mx-auto rounded-lg w-[90%] lg:w-[40%]">
+            <Stack gap={6} className="items-center">
 
-            <div className="p-4 md:p-12 bg-white rounded-3xl flex-1 relative shadow-2xl">
-              {/* Loading state when form is submitting */}
-              {formik.isSubmitting ? (
-                <>
-                  <div className="absolute h-full w-full top-0 left-0 rounded-3xl flex items-center justify-center ">
-                    <CircularProgress size={40} sx={{ color: "#3b82f6" }} />
-                  </div>
-                  <div className="absolute bg-black opacity-5 h-full w-full top-0 left-0 rounded-3xl"></div>
-                </>
-              ) : (
-                ""
-              )}
-              <div className="flex flex-col gap-md w-full">
-                <h3 className="heading-tertiary text-dark text-center">
-                  Log In
-                </h3>
+              <AspectRatio ratio={2} variant="plain" sx={{width:'200px', height:'50px'}}>
+                <img src="https://res.cloudinary.com/sponect/image/upload/v1765126777/logo_final_2_ktuivs.png" alt="sponect logo" />
+              </AspectRatio>
+              <Stack gap={2}>
+                <Typography level="h3" className="text-dark text-center">
+                  Sign In
+                </Typography>
 
-                <div className="self-center flex flex-col items-center justify-center cursor-pointer gap-sm">
-                  <p className="body-text text-dark">Not a member yet?</p>
-                  <Link
-                    to="/signup"
-                    className="btn-primary w-max cursor-pointer"
+                <Box className="self-center flex flex-col items-center justify-center cursor-pointer gap-sm">
+                  <Typography level="body-sm" className=" text-dark">
+                    Not a member yet?
+                  </Typography>
+                  <Button
+                    variant="solid"
+                    sx={{
+                      width: "100%",
+                      backgroundColor: "primary.main",
+                      "&:hover": {
+                        backgroundColor: "primary.dark",
+                        transition: "0.15s ",
+                      },
+                    }}
                   >
-                    Create Your Account
-                  </Link>
-                </div>
+                    <Link to="/signup">Create Your Account</Link>
+                  </Button>
+                </Box>
+              </Stack>
 
-                <form
-                  onSubmit={formik.handleSubmit}
-                  className="flex flex-col gap-md"
+              <Box
+                component="form"
+                onSubmit={formik.handleSubmit}
+                className="flex flex-col gap-md w-full"
+              >
+                {/* Email */}
+                <FormControl
+                  error={formik.touched.email && Boolean(formik.errors.email)}
                 >
-                  {/* Email */}
-                  <div className="form-field">
-                    <label className="input-label">Email</label>
+                  <FormLabel>Email</FormLabel>
+                  <Input
+                    startDecorator={<Mail size={20} className="text-dark" />}
+                    type="email"
+                    placeholder="you@domain.com"
+                    autoComplete="email"
+                    {...formik.getFieldProps("email")}
+                  />
 
-                    <div
-                      className={`input-field ${
-                        formik.touched.email && formik.errors.email
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <Mail size={20} className="text-dark" />
+                  {formik.touched.email && formik.errors.email && (
+                    <FormHelperText>{formik.errors.email}</FormHelperText>
+                  )}
+                </FormControl>
 
-                      <input
-                        type="email"
-                        name="email"
-                        className="input text-dark"
-                        placeholder="you@domain.com"
-                        autoComplete="email"
-                        {...formik.getFieldProps("email")}
-                      />
-                    </div>
+                <FormControl
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                >
+                  <FormLabel>Password</FormLabel>
+                  <Input
+                    startDecorator={<Lock size={20} className="text-dark" />}
+                    type="password"
+                    name="password"
+                    placeholder="*****"
+                    autoComplete="password"
+                    {...formik.getFieldProps("password")}
+                  />
 
-                    {formik.touched.email && formik.errors.email && (
-                      <p className="text-sm text-red-600">
-                        {formik.errors.email}
-                      </p>
-                    )}
-                  </div>
+                  {formik.touched.password && formik.errors.password && (
+                    <FormHelperText>{formik.errors.password}</FormHelperText>
+                  )}
+                </FormControl>
+                <p className="text-sm text-dark">Forgot Password?</p>
 
-                  {/* Password */}
-                  <div className="form-field">
-                    <label className="input-label">Password</label>
-
-                    <div
-                      className={`input-field ${
-                        formik.touched.password && formik.errors.password
-                          ? "border-2 border-red-600"
-                          : ""
-                      }`}
-                    >
-                      <Lock size={20} className="text-dark" />
-
-                      <input
-                        type="password"
-                        name="password"
-                        className="input text-dark"
-                        placeholder="••••••••"
-                        autoComplete="new-password"
-                        {...formik.getFieldProps("password")}
-                      />
-                    </div>
-
-                    {formik.touched.password && formik.errors.password && (
-                      <p className="text-sm text-red-600">
-                        {formik.errors.password}
-                      </p>
-                    )}
-                  </div>
-
-                  <p className="text-sm text-dark">Forgot Password?</p>
-
-                  <div className="form-field mt-md">
-                    <div
-                      className="input-field flex justify-center h-12"
-                      style={{ padding: 0, border: "none" }}
-                    >
-                      <input
-                        type="submit"
-                        value="Log In"
-                        className="btn-primary w-full cursor-pointer h-full"
-                        disabled={formik.isSubmitting}
-                      />
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+                <Button
+                  type="submit"
+                  variant="solid"
+                  disabled={formik.isSubmitting}
+                  loading={formik.isSubmitting}
+                  sx={{
+                    width: "100%",
+                    backgroundColor: "primary.main",
+                    "&:hover": {
+                      backgroundColor: "primary.dark",
+                      transition: "0.15s ",
+                    },
+                  }}
+                >
+                  Sign in
+                </Button>
+              </Box>
+            </Stack>
+          </Box>
+        </Box>
+      </Box>
     </>
   );
 };
