@@ -24,3 +24,4 @@ export { BasicSettings } from "./account/BasicSettings";
 export { SponsorOverviewForm } from "./sponsor/SponsorOverviewForm";
 export { SponsorPreferencesForm } from "./sponsor/SponsorPreferencesForm";
 export { SponsorSocialsForm } from "./sponsor/SponsorSocialsForm";
+export {SponsorHeader} from "./sponsor/SponsorHeader"

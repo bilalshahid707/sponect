@@ -6,10 +6,11 @@ export { SigninPage } from './auth/SigninPage';
 export { SignupPage } from './auth/SignupPage';
 
 // Account Pages
-export { AccountSettings } from "./account/AccountSettings"
 
 // sponsor pages
-export {SponsorSettings} from "./sponsor/SponsorSettings"
+export {Sponsor} from "./sponsor/Sponsor"
 
 // dashboard pages
 export {Dashboard} from "./dashboard/Dashboard"
+export { AccountSettings } from "./dashboard/AccountSettings"
+export {SponsorSettings} from "./dashboard/SponsorSettings"

@@ -19,7 +19,7 @@ const startServer = async()=>{
     await sequelize.authenticate();
     console.log("Sequelize connection established");
 
-    await sequelize.sync({force:true});
+    await sequelize.sync({force:true,alter:true});
     console.log("Models synchronized");
 
     startServer();

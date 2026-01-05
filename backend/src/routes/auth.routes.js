@@ -1,10 +1,8 @@
 const express = require("express")
 const Router = express.Router()
-const controllers = require('../controllers/auth/auth.controllers')
-const auth = require('../middlewares/auth.middlewares')
+const {signin,signout,signup} = require('../controllers/auth/auth.controllers')
 
-Router.post("/signup",controllers.signup)
-Router.post("/signin",controllers.signin)
-Router.post("/signout",controllers.signout)
-
+Router.post("/signup",signup)
+Router.post("/signin",signin)
+Router.post("/signout",signout)
 module.exports = Router

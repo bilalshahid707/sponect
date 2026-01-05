@@ -1,59 +1,158 @@
-const { sequelize, DataTypes } = require("../config/sequelize.js"); // your Sequelize instance
-const User = require("./user.model.js");
+const { sequelize, DataTypes } = require("../config/sequelize");
+const Sponsee = require("./sponsee.model");
+const {
+  genders,
+  ageGroups,
+  occupations,
+  pitchCategories,
+} = require("../utils/Constants");
+const { isValidArrayValues } = require("../utils/Validators");
 
-const Sponsee = sequelize.define(
-    "Sponsee",
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        userId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: User,
-                key: "id",
-            },
-        },
-        organizationName: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        organizationDescription: {
-            type: DataTypes.TEXT,
-            allowNull: true,
-        },
-        teamSize: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-        },
-        website: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        socialLinks: {
-            type: DataTypes.JSON,
-            allowNull: true,
-        },
-        category: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        logo: {
-            type: DataTypes.JSON,
-            allowNull: true,
-        },
+const Pitch = sequelize.define(
+  "Pitch",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
     },
-    {
-        tableName: "sponsees",
-        timestamps: true,
-        underscored: true,
-    }
+
+    sponseeId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    description: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
+
+    expectedAudience: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+
+    venue: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
+    startAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+
+    endAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+
+    category: {
+      type: DataTypes.ENUM(pitchCategories),
+      validate: {
+        isIn: {
+          args: [pitchCategories],
+          msg: "Invalid Category",
+        },
+      },
+      defaultValue: "event",
+    },
+
+    coverPhoto: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
+
+    gender: {
+      type: DataTypes.STRING,
+      validate: {
+        isIn: {
+          args: [genders],
+          msg: "Invalid gender. Must be one of: male, female, both",
+        },
+      },
+      defaultValue: "both",
+    },
+
+    ageGroup: {
+      type: DataTypes.STRING,
+      validate: {
+        isIn: {
+          args: [ageGroups],
+          msg: "Invalid age group. Must be one of: 13-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+",
+        },
+      },
+      allowNull: true,
+    },
+
+    occupation: {
+      type: DataTypes.ARRAY(DataTypes.ENUM(occupations)),
+      validate: {
+        validator(values) {
+          isValidArrayValues(values, occupations);
+        },
+      },
+      defaultValue: ["other"],
+    },
+
+    opportunities: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+
+    promotionChannels: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+
+    previousSponsors: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+
+    currentSponsors: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+
+    proposalDoc: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
+
+    media: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+
+    preferences: {
+      type: DataTypes.ARRAY(DataTypes.ENUM("cash", "inkind")),
+      validate:{
+        isIn:{
+          args:[['cash','inkind']],
+          msg:"Invalid preference"
+        }
+      }
+    },
+  },
+  {
+    tableName: "pitches",
+    timestamps: true,
+  }
 );
 
-// Association: 1 User → 1 Applicant
-User.hasOne(Sponsee, {foreignKey:{name:"userId",onDelete:"CASCADE",onUpdate:"CASCADE"}});
+Sponsee.hasMany(Pitch, {
+  foreignKey: { name: "sponseeId", onDelete: "CASCADE", onUpdate: "CASCADE" },
+  as: "pitches",
+});
+Pitch.belongsTo(Sponsee, {
+  foreignKey: { name: "sponseeId", onDelete: "CASCADE", onUpdate: "CASCADE" },
+});
 
-module.exports = Sponsee
+module.exports = Pitch;

@@ -8,6 +8,10 @@ const morgan = require("morgan")
 const authRouter = require("./routes/auth.routes");
 const userRouter = require("./routes/user.routes")
 const sponsorRouter = require('./routes/sponsor.routes')
+const sponseeRouter = require('./routes/sponsee.routes')
+const pitchRouter = require('./routes/pitch.routes')
+const socialRouter = require('./routes/social.routes')
+const contactRouter = require("./routes/contact.routes")
 
 const app = express()
 
@@ -20,8 +24,7 @@ app.use(cors({
 
 // Body Parser
 app.use(cookieParser())
-app.use(express.json({limit:"10kb"}))
-app.use(express.urlencoded({extended:true,limit:'10kb'}))
+app.use(express.json())
 
 // Header security
 app.use(helmet())
@@ -34,10 +37,14 @@ app.use(helmet())
 
 
 // Using routers
-// app.use("/api/v1/waitlist",waitListRouter)
 app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/sponsors",sponsorRouter)
+app.use("/api/v1/sponsees",sponseeRouter)
+app.use("/api/v1/socials",socialRouter)
+app.use("/api/v1/contacts",contactRouter)
+app.use('/api/v1/pitches',pitchRouter)
+
 
 
 app.use(errorHandler)

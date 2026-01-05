@@ -2,7 +2,7 @@ import React from "react"
 import { Routes,Route } from "react-router-dom"
 
 
-import {HomePage,SigninPage,SignupPage,SponsorSettings,AccountSettings,Dashboard} from "../pages"
+import {HomePage,SigninPage,SignupPage,SponsorSettings,AccountSettings,Dashboard,Sponsor} from "../pages"
 
 export const AllRoutes = ()=>{
     return (
@@ -11,7 +11,7 @@ export const AllRoutes = ()=>{
             <Route path="/" element={<HomePage/>}/>
             <Route path="/signin" element={<SigninPage/>}/>
             <Route path="/signup" element={<SignupPage/>}/>
-            {/* <Route path="/sponsors/create" element={<CreateSponsor/>}/> */}
+            <Route path="/sponsors/:id" element={<Sponsor/>}/>
 
             {/* settings */}
             {/* <Route element={<ProtectedRoutes/>}> */}

@@ -137,11 +137,38 @@ export const theme = extendTheme({
     },
     JoyCircularProgress: {
       styleOverrides: {
-        determinate: ({ theme }) => ({  
+        determinate: ({ theme }) => ({
           color: theme.palette.primary.main,
         }),
         indeterminate: ({ theme }) => ({
           color: theme.palette.primary.main,
+        }),
+      },
+    },
+    JoyChip: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          paddingBottom: 2,
+          paddingTop: 2,
+          paddingLeft: 4,
+          paddingRight: 4,
+          fontWeight: "bold",
+          boxShadow: "md",
+          backgroundColor: theme.palette.primary.main,
+        }),
+      },
+    },
+    JoyIconButton: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          borderRadius: "50%",
+          borderColor: theme.palette.dark.main,
+          "&:hover": {
+            bgcolor: theme.palette.primary.main,
+            borderColor: theme.palette.primary.main,
+            color: theme.palette.white.main,
+            transition: "all 0.15s",
+          },
         }),
       },
     },
