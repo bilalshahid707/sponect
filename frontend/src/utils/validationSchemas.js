@@ -21,6 +21,7 @@ export const signupSchema = Yup.object({
   password: Yup.string()
     .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
+  accountType: Yup.string().required("Select account type")
 });
 
 export const profileSchema = Yup.object().shape({

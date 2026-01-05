@@ -8,19 +8,18 @@ const User = sequelize.define('User', {
         primaryKey: true,
         autoIncrement: true
     },
-    fullName: {
+    username: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
     },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        set(value) {
-            this.setDataValue('email', value.toLowerCase())
-        },
         validate: {
-            isEmail: true
+            isEmail:{
+                msg:"Invalid email"
+            }
         }
     },
     phone: {
@@ -28,12 +27,20 @@ const User = sequelize.define('User', {
         allowNull: true,
         unique: true,
         validate: {
-            isNumeric: true
+            isNumeric: {
+                msg:"Invalid phone number"
+            }
         }
     },
-    accountType: {
-        type: DataTypes.ENUM("sponsee", "sponsor"),
-        allowNull: false
+    role: {
+        type: DataTypes.ENUM("sponsee","sponsor"),
+        allowNull: false,
+        validate:{
+            isIn:{
+                args:[['sponsor','sponsee']],
+                msg:"Invalid user role"
+            }
+        }
     },
     designation: {
         type: DataTypes.STRING,
@@ -42,10 +49,6 @@ const User = sequelize.define('User', {
             this.setDataValue('designation', value.toLowerCase())
         }
     },
-    profileImage: {
-        type: DataTypes.JSON,
-        allowNull: true,
-    },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -53,6 +56,14 @@ const User = sequelize.define('User', {
     passwordChangedAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
+    },
+    avatar: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: {
+            url: null,
+            publicId: null
+        }
     }
 }, {
     hooks: {
@@ -63,7 +74,8 @@ const User = sequelize.define('User', {
             }
         }
     },
-    tableName: 'users'
+    tableName: 'users',
+    timestamps:true
 })
 
 module.exports = User

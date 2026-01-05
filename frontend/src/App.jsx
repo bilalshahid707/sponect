@@ -12,6 +12,7 @@ const API_URL = import.meta.env.VITE_APP_API_URL;
 
 function App() {
   const location = useLocation()
+
   const dispatch = useDispatch();
 
   const { data: user } = useQuery({
@@ -37,9 +38,9 @@ function App() {
 
   return (
     <>
-      {location.pathname.startsWith('/dashboard')?'':<Header />}
+      {['/dashboard', '/signup', '/signin'].some(path => location.pathname.startsWith(path))?'':<Header />}
       <AllRoutes />
-      {location.pathname.startsWith('/dashboard')?'':<Footer />}
+      {['/dashboard', '/signup', '/signin'].some(path => location.pathname.startsWith(path))?'':<Footer />}
     </>
   );
 }

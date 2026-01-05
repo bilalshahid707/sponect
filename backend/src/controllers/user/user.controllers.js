@@ -1,42 +1,66 @@
-const User = require('../../models/user.model')
-const catchAsync = require('../../utils/CatchAsync')
-const AppError = require('../../utils/AppError')
+const User = require("../../models/user.model");
+const catchAsync = require("../../utils/CatchAsync");
+const AppError = require("../../utils/AppError");
+const { uploadImage, deleteImage } = require("../../utils/Cloudinary");
 
-exports.getUser = catchAsync(async (req, res, next) => {
-    const { id } = req.user
+exports.getMe = catchAsync(async (req, res, next) => {
+  const { id } = req.user;
 
-    const user = await User.findByPk(id)
+  const user = await User.findByPk(id);
 
-    res.status(200).json({
-        status: 'success',
-        data: user
-    })
-})
+  res.status(200).json({
+    status: "success",
+    data: user,
+  });
+});
 
-exports.updateUser = catchAsync(async (req, res, next) => {
+exports.updateMe = catchAsync(async (req, res, next) => {
+  const { id } = req.user;
+  const allowedFields = new Set(["email", "fullName", "phone", "designation"]);
+  const keys = Object.keys(req.body).filter((key) => allowedFields.has(key));
+  const filteredBody = {};
+  keys.forEach((key) => {
+    filteredBody[key] = req.body[key];
+  });
 
-    const { id } = req.user
+  const user = await User.findOne({ where: { id: id } });
+  if (!user) {
+    return next(new AppError("No user with this id exists", 404));
+  }
+  await user.update(filteredBody);
 
-    const allowedFields = ["email", "fullName", "phone", "designation", "profileImage"]
-    const keys = Object.keys(req.body).filter(key => allowedFields.includes(key))
-    const filteredBody = {}
-    keys.forEach(key => {
-        filteredBody[key] = req.body[key]
-    })
-    // setting profile image
-    if(req.image){
-        filteredBody["profileImage"]=req.image
-    }
+  res.status(200).json({
+    status: "success",
+    data: user,
+  });
+});
 
-    const user = await User.findOne({ where: { id: id } })
-    if (!user) {
-        return next(new AppError("No user with this id exists", 404))
-    }
-    await user.update(filteredBody)
+exports.updateAvatar = catchAsync(async (req, res, next) => {
+  const { id } = req.user;
 
-    res.status(200).json({
-        status: "success",
-        data: user
-    })
+  if (!req.file) {
+    return next(new AppError("No file uploaded", 400));
+  }
 
-})
+  const user = await User.findByPk(id);
+
+  if (user.avatar?.publicId) {
+    await deleteImage(user.avatar.publicId);
+  }
+
+  const { buffer } = req.file;
+  const image = await uploadImage(buffer, "avatars");
+
+  await user.update({
+    avatar: {
+      url: image.secureUrl,
+      publicId: image.publicID,
+    },
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: user,
+  });
+});
+

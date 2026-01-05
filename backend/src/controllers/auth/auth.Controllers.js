@@ -1,4 +1,6 @@
 const User = require('../../models/user.model')
+const Sponsor = require('../../models/sponsor.model')
+const Sponsee = require('../../models/sponsee.model')
 const jwt = require('jsonwebtoken')
 const catchAsync = require('../../utils/CatchAsync')
 const AppError = require('../../utils/AppError')
@@ -20,8 +22,14 @@ const cookieOptions = {
 };
 
 exports.signup = catchAsync(async (req, res) => {
-    const { email, accountType,password } = req.body
-    const newUser = await User.create({ email, accountType, password })
+    const { username,email,password,role } = req.body
+    const newUser = await User.create({ username, email, password,role })
+
+    if(role==="sponsor"){
+        await Sponsor.create({ userId: newUser.id })
+    } else if(role==="sponsee"){
+        await Sponsee.create({ userId: newUser.id })
+    }
 
     const token = signToken(newUser)
     // sendMail(newUser, {
