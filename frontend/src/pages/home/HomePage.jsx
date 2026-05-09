@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { Search, SlidersHorizontal, MousePointerClick, Zap, MessageCircle, Bookmark, Star } from "lucide-react";
 import cherryLogo from "../../assets/partners-logos/cherry-logo.png";
 import justujuLogo from "../../assets/partners-logos/justuju-logo.jpg";
@@ -74,7 +73,8 @@ export const HomePage = () => {
         />
       )}
       {/* Hero Section */}
-      <section className="bg-dark overflow-hidden min-h-[90vh] flex items-stretch">
+      <section className="overflow-hidden min-h-[90vh] flex items-stretch bg-dark relative">
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#06758c]/30 to-transparent pointer-events-none z-0" />
         <div className="w-full max-w-7xl mx-auto px-2 py-6 sm:px-8 flex flex-col md:items-start md:mt-4 items-center justify-between gap-8 relative">
           {/* Left Content */}
           <div className="flex flex-col items-center justify-center gap-4 w-full md:px-16 z-10">
@@ -147,9 +147,9 @@ export const HomePage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 4.2, duration: 0.5, ease: "easeOut" }}
             >
-              <Link to="/signup" className="btn-primary">
-                Get Started
-              </Link>
+              <a href="#how-it-works" className="btn-primary">
+                How it works
+              </a>
             </motion.div>
           </div>
 
@@ -274,7 +274,7 @@ export const HomePage = () => {
       </section>
 
       {/* How it works section */}
-      <section className="section">
+      <section id="how-it-works" className="section">
         <div className="container">
           <FadeInWhenVisible>
             <h2 className="heading-secondary text-dark text-center">

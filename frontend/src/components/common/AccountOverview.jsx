@@ -14,10 +14,10 @@ export const AccountOverview = () => {
           alt="User Avatar"
         />
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography level="title-sm" sx={{ color: "white.main" }}>
+          <Typography level="title-sm" sx={{ color: "text.primary" }}>
             {user?.fullName}
           </Typography>
-          <Typography level="body-xs" sx={{ color: "white.light" }}>
+          <Typography level="body-xs" sx={{ color: "text.secondary" }}>
             {user?.email}
           </Typography>
         </Box>

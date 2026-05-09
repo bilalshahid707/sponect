@@ -8,6 +8,7 @@ import { Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FileUploader } from "../components/FileUploader";
 import { FormRow } from "../components/FormRow";
+import { PreviewButton } from "../components/PreviewButton";
 
 const API_URL = import.meta.env.VITE_APP_API_URL;
 
@@ -44,15 +45,19 @@ export const PitchTab4 = ({ pitch }) => {
             <h2 className="text-base font-semibold text-white">Media</h2>
             <p className="text-xs text-white/60 mt-0.5">Upload a cover photo, gallery images, and a proposal document</p>
           </div>
-          <Button
-            type="button"
-            disabled={publishMutation.isPending}
-            onClick={() => publishMutation.mutate()}
-            className="flex items-center gap-1.5 bg-white text-dark h-8 px-4 text-xs cursor-pointer font-medium shrink-0"
-          >
-            <Rocket size={13} />
-            {publishMutation.isPending ? "Publishing..." : "Publish Pitch"}
-          </Button>
+          {pitch?.status === "published" ? (
+            <PreviewButton pitchId={pitch.id} />
+          ) : (
+            <Button
+              type="button"
+              disabled={publishMutation.isPending}
+              onClick={() => publishMutation.mutate()}
+              className="flex items-center gap-1.5 bg-white text-dark h-8 px-4 text-xs cursor-pointer font-medium shrink-0"
+            >
+              <Rocket size={13} />
+              {publishMutation.isPending ? "Publishing..." : "Publish Pitch"}
+            </Button>
+          )}
         </div>
         <div className="h-0.5 bg-primary" />
 
@@ -103,6 +108,7 @@ export const PitchTab4 = ({ pitch }) => {
 PitchTab4.propTypes = {
   pitch: PropTypes.shape({
     id: PropTypes.number,
+    status: PropTypes.string,
     assets: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,

@@ -36,20 +36,20 @@ export const UserNav = () => {
   };
   return (
     <>
-      <nav className="p-sm border-b-2 border-dark-lighter">
-        <ul className="flex flex-col gap-sm text-white text-base font-medium">
+      <nav className="p-sm border-b-2 border-gray-100">
+        <ul className="flex flex-col gap-sm text-dark text-base font-medium">
           <li>
             <button
               className="
                   flex items-center gap-sm
                   w-full text-left
                   p-sm
-                  rounded-xl hover:bg-dark-lighter
+                  rounded-xl hover:bg-gray-100
                 "
             >
               <User size={18} className="text-primary" />
               <Link to={"dashboard"}>
-                <span className="text-white">Dashboard</span>
+                <span className="text-dark">Dashboard</span>
               </Link>
             </button>
           </li>
@@ -61,7 +61,7 @@ export const UserNav = () => {
                   flex items-center gap-sm
                   w-full text-left
                   p-sm
-                  rounded-xl hover:bg-dark-lighter
+                  rounded-xl hover:bg-gray-100
                   text-red-500
                 "
             >

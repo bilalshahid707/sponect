@@ -22,24 +22,27 @@ export const UserDropDown = ({ user }) => {
   return (
     <div className="relative hidden md:block" ref={dropdownRef}>
       {/* Trigger */}
+   
+
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 rounded-full pl-1 pr-3 py-1 hover:bg-white/10 transition-colors cursor-pointer"
+        className="flex items-center gap-2 rounded-full hover:bg-white-light transition-colors cursor-pointer bg-white-lighter w-18"
       >
         <img
           src={user?.avatar?.url || Avatar}
           alt="avatar"
-          className="w-9 h-9 rounded-full object-cover "
+          className="w-10 h-10 rounded-full object-cover "
         />
         <ChevronDown
           size={16}
-          className={`text-white/70 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`text-dark transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>
+  
 
       {/* Dropdown panel */}
       <div
-        className={`absolute right-0 mt-2 w-56 bg-dark border border-dark-lighter rounded-md shadow-xl z-50 overflow-hidden transition-all duration-200 origin-top-right ${
+        className={`absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-xl z-50 overflow-hidden transition-all duration-200 origin-top-right ${
           open ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
         }`}
       >
