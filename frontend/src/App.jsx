@@ -1,5 +1,4 @@
 import { Header, Footer } from "./components";
-import { PageLoader } from "./components/common/PageLoader";
 import { AllRoutes } from "./routes";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
@@ -36,8 +35,6 @@ function App() {
   const hideLayout = ["/dashboard", "/signup", "/signin"].some((path) =>
     location.pathname.startsWith(path)
   );
-
-  if (isPending) return <PageLoader />;
 
   return (
     <>
