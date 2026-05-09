@@ -1,6 +1,6 @@
 const express = require("express");
 const Router = express.Router();
-const { createPitch, updatePitch, publishPitch, deletePitch, getPitchById, getAllPitches } = require("../controllers/pitch.controllers");
+const { createPitch, updatePitch, publishPitch, deletePitch, getPitchById, getAllPitches,getPitchesBySponseeId } = require("../controllers/pitch.controllers");
 const { addPackage, updatePackage, deletePackage } = require("../controllers/package.controllers");
 const { uploadAsset, deleteAsset } = require("../controllers/asset.controllers");
 const { protect, restrictTo, requireSponsee } = require("../../../middlewares/auth.middlewares");
@@ -8,10 +8,10 @@ const { authorizeUserToModify, validateTab, checkTabSequence } = require("../mid
 const multer = require("../../../config/multer");
 
 Router.get("/", getAllPitches);
+Router.get("/my-pitches", protect, restrictTo(["sponsee"]), requireSponsee, getPitchesBySponseeId);
 Router.get("/:pitchId", getPitchById);
 
 Router.use(protect, restrictTo(["sponsee"]), requireSponsee);
-
 // Tab 0: create — no pitchId yet, so no authorizeUserToModify or checkTabSequence
 Router.post("/create", validateTab([0]), createPitch);
 

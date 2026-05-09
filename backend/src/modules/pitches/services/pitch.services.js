@@ -63,8 +63,18 @@ exports.getAllPitches = async (query) => {
   const pitches = await Pitch.findAll({
     where: whereClause,
     attributes: [
-      "id", "title", "category", "venue", "startAt", "endAt",
-      "expectedAudience", "preferences", "gender", "ageGroup", "occupation","createdAt"
+      "id",
+      "title",
+      "category",
+      "venue",
+      "startAt",
+      "endAt",
+      "expectedAudience",
+      "preferences",
+      "gender",
+      "ageGroup",
+      "occupation",
+      "createdAt",
     ],
     include: [
       {
@@ -88,6 +98,23 @@ exports.getAllPitches = async (query) => {
   return pitches;
 };
 
+exports.getPitchesBySponseeId = async (sponseeId, pitchStatus) => {
+  const pitches = await Pitch.findAll({
+    where: { sponseeId: sponseeId, status: pitchStatus },
+    attributes: ["id", "title", "createdAt", "updatedAt","status"],
+    include: [
+      {
+        model: Asset,
+        as: "assets",
+        attributes: ["id", "type", "secureUrl"],
+        where: { type: "cover" },
+        required: false,
+      },
+    ],
+  });
+
+  return pitches
+};
 // Advances tabNumber only if the incoming tab is ahead of the current one.
 const advanceTab = (pitch, tabNumber) =>
   String(Math.max(Number(pitch.tabNumber), tabNumber));
@@ -125,7 +152,10 @@ exports.publishPitch = async (pitch) => {
     throw new AppError("Pitch is already published", 400);
   }
   if (Number(pitch.tabNumber) < 2) {
-    throw new AppError("Complete details and promotion tabs before publishing", 400);
+    throw new AppError(
+      "Complete details and promotion tabs before publishing",
+      400,
+    );
   }
   return pitch.update({ status: "published" });
 };

@@ -1,4 +1,3 @@
-import { BasicAlert } from "../../components";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
@@ -14,14 +13,13 @@ import {
   Input,
   Button,
   Stack,
-  AspectRatio
+  AspectRatio,
 } from "@mui/joy";
 
 export const SigninPage = () => {
   const mutation = useAuth("signin");
 
-  const [alertMsg, setAlertMsg] = useState();
-  const [alertSeverity, setAlertSeverity] = useState();
+  const [errorMessage, seterrorMessage] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -31,13 +29,8 @@ export const SigninPage = () => {
     validationSchema: loginSchema,
     onSubmit: (values, { setSubmitting }) => {
       mutation.mutate(values, {
-        onSuccess: () => {
-          setAlertMsg("Logged in successfully");
-          setAlertSeverity("success");
-        },
         onError: (error) => {
-          setAlertMsg(error.response?.data?.message || error.message);
-          setAlertSeverity("error");
+          seterrorMessage(error.response?.data?.message || error.message);
         },
         onSettled: () => {
           setSubmitting(false);
@@ -48,21 +41,19 @@ export const SigninPage = () => {
 
   return (
     <>
-      {alertMsg && (
-        <BasicAlert
-          message={alertMsg}
-          severity={alertSeverity}
-          setAlertMsg={setAlertMsg}
-        />
-      )}
-
       <Box component="section" className="bg-dark">
         <Box className="container">
           <Box className="p-4 md:p-8 bg-white mx-auto rounded-lg w-[90%] lg:w-[40%]">
             <Stack gap={6} className="items-center">
-
-              <AspectRatio ratio={2} variant="plain" sx={{width:'200px', height:'50px'}}>
-                <img src="https://res.cloudinary.com/sponect/image/upload/v1765126777/logo_final_2_ktuivs.png" alt="sponect logo" />
+              <AspectRatio
+                ratio={2}
+                variant="plain"
+                sx={{ width: "200px", height: "50px" }}
+              >
+                <img
+                  src="https://res.cloudinary.com/sponect/image/upload/v1765126777/logo_final_2_ktuivs.png"
+                  alt="sponect logo"
+                />
               </AspectRatio>
               <Stack gap={2}>
                 <Typography level="h3" className="text-dark text-center">
@@ -94,6 +85,13 @@ export const SigninPage = () => {
                 onSubmit={formik.handleSubmit}
                 className="flex flex-col gap-md w-full"
               >
+                {errorMessage && (
+                  <div className="w-full p-2 bg-red-100">
+                    <p className="text-red-500 text-sm">
+                      {errorMessage}
+                    </p>
+                  </div>
+                )}
                 {/* Email */}
                 <FormControl
                   error={formik.touched.email && Boolean(formik.errors.email)}

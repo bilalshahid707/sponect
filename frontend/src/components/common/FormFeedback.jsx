@@ -1,15 +1,14 @@
 import { FormHelperText } from "@mui/joy";
 
 export const FormFeedback = ({ severity, message }) => {
-
   return (
     <>
-      {open && (
+      {message && (
         <FormHelperText
           sx={{
-            bgcolor: `${severity === "error" ? "primary.whiteRed" : "primary.whiteGreen"}`,
+            bgcolor: severity === "error" ? "#fef2f2" : "#f0fdf4",
             p: 2,
-            color: `${severity === "error" ? "primary.darkRed" : "primary.darkGreen"}`,
+            color: severity === "error" ? "#b91c1c" : "#15803d",
           }}
         >
           {message}

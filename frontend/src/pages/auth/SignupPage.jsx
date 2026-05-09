@@ -1,4 +1,3 @@
-import { BasicAlert } from "../../components";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
@@ -23,12 +22,8 @@ import {
   Sheet,
 } from "@mui/joy";
 
-import Done from "@mui/icons-material/Done";
-
 export const SignupPage = () => {
-  const [alertMsg, setAlertMsg] = useState();
-  const [alertSeverity, setAlertSeverity] = useState();
-
+  const [errorMessage, seterrorMessage] = useState("");
   const [error, setError] = useState();
   const mutation = useAuth("signup");
 
@@ -43,7 +38,7 @@ export const SignupPage = () => {
     onSubmit: (values, { setSubmitting }) => {
       mutation.mutate(values, {
         onError: (error) => {
-          setError(error.response?.data?.message || error.message);
+          seterrorMessage(error.response?.data?.message || error.message);
         },
         onSettled: () => {
           setSubmitting(false);
@@ -82,6 +77,13 @@ export const SignupPage = () => {
                 onSubmit={formik.handleSubmit}
                 className="flex flex-col gap-md w-full"
               >
+                {errorMessage && (
+                  <div className="w-full p-2 bg-red-100">
+                    <p className="text-red-500 text-sm">
+                      {errorMessage}
+                    </p>
+                  </div>
+                )}
                 <FormControl
                   error={
                     formik.touched.username && Boolean(formik.errors.username)
@@ -149,9 +151,22 @@ export const SignupPage = () => {
                 >
                   <FormLabel>Account Type</FormLabel>
 
-                  <RadioGroup size="sm" sx={{ gap: 2,display:'flex',flexDirection:'row' }}>
+                  <RadioGroup
+                    size="sm"
+                    sx={{ gap: 2, display: "flex", flexDirection: "row" }}
+                  >
                     {accountType.map((type) => (
-                      <Sheet key={accountType.indexOf(type)} sx={{ p: 2, borderRadius: "md", display:'flex',flexDirection:'column',gap:1,flex:1 }}>
+                      <Sheet
+                        key={accountType.indexOf(type)}
+                        sx={{
+                          p: 2,
+                          borderRadius: "md",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 1,
+                          flex: 1,
+                        }}
+                      >
                         <Radio
                           name="role"
                           label={`${type.name}`}
@@ -159,9 +174,7 @@ export const SignupPage = () => {
                           disableIcon
                           value={type.name.toLowerCase()}
                           onChange={formik.handleChange}
-                          onBlur={() =>
-                            formik.setFieldTouched("role", true)
-                          }
+                          onBlur={() => formik.setFieldTouched("role", true)}
                           slotProps={{
                             label: ({ checked }) => ({
                               sx: {
@@ -192,7 +205,9 @@ export const SignupPage = () => {
                             }),
                           }}
                         />
-                        <Typography level="body-xs" sx={{color:"dark.main"}}>{type.decsription}</Typography>
+                        <Typography level="body-xs" sx={{ color: "dark.main" }}>
+                          {type.decsription}
+                        </Typography>
                       </Sheet>
                     ))}
                   </RadioGroup>

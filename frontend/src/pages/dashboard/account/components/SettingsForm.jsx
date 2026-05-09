@@ -17,11 +17,12 @@ import {
   FormLabel,
   Input,
   FormHelperText,
-  Button,
   Select,
   Option,
-  CircularProgress,
 } from "@mui/joy";
+import { Button } from "../../../../components/ui/button";
+
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const SettingsForm = () => {
   const queryClient = useQueryClient();
@@ -67,8 +68,10 @@ export const SettingsForm = () => {
     },
   });
 
+
   return (
     <section className="section" style={{ py: '1rem' }}>
+      {user ?
       <Box className="max-w-4xl mx-auto border-2 border-white-light p-lg rounded-md">
         <Box className="p-0.5 bg-white relative flex flex-col gap-lg">
           <div>
@@ -216,14 +219,18 @@ export const SettingsForm = () => {
               <Button
                 type="submit"
                 disabled={formik.isSubmitting}
-                loading={formik.isSubmitting}
+                className="cursor-pointer"
               >
-                {formik.isSubmitting ? <CircularProgress /> : "Save"}
+                {formik.isSubmitting ? "Saving..." : "Save"}
               </Button>
             </Box>
           </Box>
         </Box>
       </Box>
+      :
+      
+      <Skeleton className="w-4xl h-screen mx-auto" ></Skeleton>
+}
     </section>
   );
 };
