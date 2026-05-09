@@ -158,9 +158,11 @@ const Sponsor = sequelize.define(
 
 User.hasOne(Sponsor, {
   foreignKey: { name: "userId", onDelete: "CASCADE", onUpdate: "CASCADE" },
+  as:'postedBy'
 });
 Sponsor.belongsTo(User, {
   foreignKey: { name: "userId", onDelete: "CASCADE", onUpdate: "CASCADE" },
+  as:'postedBy'
 });
 
 module.exports = Sponsor;

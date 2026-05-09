@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test": "jest --watchAll --no-cache"
   },
   "jest": {
@@ -37,6 +38,7 @@
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-mongo-sanitize": "^2.2.0",
+    "express-xss-sanitizer": "^2.0.2",
     "helmet": "^8.1.0",
     "jest": "^30.2.0",
     "jsonwebtoken": "^9.0.2",

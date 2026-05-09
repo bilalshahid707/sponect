@@ -55,7 +55,6 @@ const User = sequelize.define('User', {
     },
     passwordChangedAt: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
     },
     avatar: {
         type: DataTypes.JSON,
@@ -68,9 +67,11 @@ const User = sequelize.define('User', {
 }, {
     hooks: {
         async beforeSave(user) {
-            if (user.changed('password')) {
+            if (user.changed("password")) {
                 user.password = await bcrypt.hash(user.password, 12)
-                user.passwordChangedAt = Date.now()
+                if(!user.isNewRecord){
+                    user.passwordChangedAt  = Date.now()
+                }
             }
         }
     },

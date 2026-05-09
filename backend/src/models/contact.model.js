@@ -65,10 +65,10 @@ Contact.belongsTo(Sponsee, {
 });
 
 Sponsor.hasMany(Contact, {
-  foreignKey: { name: "sponseeId", onDelete: "CASCADE", onUpdate: "CASCADE" },
+  foreignKey: { name: "sponsorId", onDelete: "CASCADE", onUpdate: "CASCADE" },
   as: "contacts",
 });
 Contact.belongsTo(Sponsor, {
-  foreignKey: { name: "sponseeId", onDelete: "CASCADE", onUpdate: "CASCADE" },
+  foreignKey: { name: "sponsorId", onDelete: "CASCADE", onUpdate: "CASCADE" },
 });
 module.exports = Contact;

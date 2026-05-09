@@ -37,7 +37,7 @@ export const SignupPage = () => {
       username: "",
       email: "",
       password: "",
-      accountType: "",
+      role: "",
     },
     validationSchema: signupSchema,
     onSubmit: (values, { setSubmitting }) => {
@@ -91,7 +91,7 @@ export const SignupPage = () => {
                   <Input
                     startDecorator={<Mail size={20} className="text-dark" />}
                     type="text"
-                    placeholder="wajeeha"
+                    placeholder="john009"
                     autoComplete="username"
                     {...formik.getFieldProps("username")}
                   />
@@ -153,14 +153,14 @@ export const SignupPage = () => {
                     {accountType.map((type) => (
                       <Sheet key={accountType.indexOf(type)} sx={{ p: 2, borderRadius: "md", display:'flex',flexDirection:'column',gap:1,flex:1 }}>
                         <Radio
-                          name="accountType"
+                          name="role"
                           label={`${type.name}`}
                           overlay
                           disableIcon
                           value={type.name.toLowerCase()}
                           onChange={formik.handleChange}
                           onBlur={() =>
-                            formik.setFieldTouched("accountType", true)
+                            formik.setFieldTouched("role", true)
                           }
                           slotProps={{
                             label: ({ checked }) => ({
