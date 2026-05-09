@@ -29,7 +29,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     if (
       currentUser.passwordChangedAt &&
-      currentUser.passwordChangedAt.getTime() / 1000 > decoded.iat
+      currentUser.passwordChangedAt / 1000 > decoded.iat
     ) {
       return next(new AppError("Password Changed", 401));
     }

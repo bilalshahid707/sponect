@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/joy";
 
-import { UploadPhoto } from "../../components";
+import { FileUploader } from "../../pages/dashboard/components/FileUploader";
 import { sponsorProfileSchema } from "../../utils/validationSchemas";
 
 export const SponsorOverviewForm = () => {
@@ -61,7 +61,7 @@ export const SponsorOverviewForm = () => {
             </Box>
 
             <Box className="upload-photo">
-              <UploadPhoto path={"/sponsors"} />
+              <FileUploader path={"sponsors/me/logo"} queryKey={"profile"} mediaName={"logo"} type="general" />
             </Box>
 
             <Box>

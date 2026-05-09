@@ -46,6 +46,9 @@ exports.AllowedSponsorFields = new Set([
   "x",
   "active",
   "occupation",
+  "categories",
+  "totalSponsorships",
+  "totalInvestment"
 ]);
 
 exports.AllowedSponseeFields = new Set([
@@ -122,6 +125,60 @@ exports.AllowedPitchFields = new Set([
   "preferences"
 ]);
 
+exports.assetTypes = ["cover", "general", "document"]
+
 exports.excludedQueryAttributes = new Set(['order','page','limit','offset'])
 
 exports.pitchFilterFields = new Set(["expectedAudience","venue","category","gender","preferences","occupation"])
+
+// Tab 0 = create. Tabs 1-4 = edit steps (5 total including create).
+// Tab 1 covers basics + audience (merged). coverPhoto moved to assets.
+exports.pitchTabs = {
+  0: {
+    name: "create",
+    fields: new Set(["title", "venue", "startAt", "endAt", "category"]),
+    required: new Set(["title", "venue", "startAt", "endAt"]),
+  },
+  1: {
+    name: "details",
+    fields: new Set(["description", "expectedAudience", "gender", "ageGroup", "occupation"]),
+    required: new Set(["description", "expectedAudience", "gender", "ageGroup", "occupation"]),
+  },
+  2: {
+    name: "promotion",
+    fields: new Set(["opportunities", "promotionChannels", "preferences"]),
+    required: new Set([]),
+  },
+  3: {
+    name: "packages",
+    fields: new Set([]),
+    required: new Set([]),
+  },
+  4: {
+    name: "media",
+    fields: new Set([]),
+    required: new Set([]),
+  },
+}
+
+
+exports.sponsorListingFields = [
+  "logo",
+  "name",
+  "tagline",
+  "industry",
+  "location",
+  "minBudget",
+  "maxBudget",
+  "cashSponsorship",
+  "inkindSponsorship",
+  "shortDuration",
+  "longDuration",
+  "oneTimeDuration",
+  "categories",
+  "gender",
+  "ageGroup",
+  "totalSponsorships",
+  "totalInvestment",
+  "id"
+];

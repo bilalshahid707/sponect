@@ -1,77 +1,135 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { X, Menu } from "lucide-react";
 import { UserDropDown } from "./UserDropDown";
 import { Navbar } from "./Navbar";
 import { UserNav } from "./UserNav";
 import AccountOverview from "../common/AccountOverview";
 
-export const Header = () => {
-  const loggedIn = useSelector((state) => state.User.LoggedIn);
-  const user = useSelector((state) => state.User.Data);
+export const Header = ({ transparent = false }) => {
+  const loggedIn = useSelector((state) => state.User?.LoggedIn);
+  const user = useSelector((state) => state.User?.Data);
 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full">
-      <div
-        initial="hidden"
-        animate="visible"
-        className={`max-w-7xl mx-auto bg-dark px-(--space-lg) sm:px-(--space-xl) lg:px-(--space-2xl) py-(--space-md) flex items-center justify-between`}
-      >
-        {/* Logo */}
-        <div className="text-white font-bold text-xl">Logo</div>
+    <>
+      <header className={`w-full  z-50 ${transparent ? "bg-dark p-2" : "bg-dark"}`}>
+        <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-1 flex items-center justify-between ${transparent ? "rounded-md bg-white" : ""}`}>
+          {/* Logo */}
+          <Link to="/" className="flex items-center shrink-0">
+            <img
+              src="https://placehold.co/120x40?text=Sponect"
+              alt="Sponect"
+              className="h-10 w-auto object-contain"
+            />
+          </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex">
-          <Navbar />
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex">
+            <Navbar dark={!transparent} />
+          </div>
+
+          {/* Desktop CTA Buttons */}
+          {loggedIn ? (
+            <div className="hidden md:flex items-center gap-3">
+              <UserDropDown user={user} />
+            </div>
+          ) : (
+            <div className="hidden md:flex items-center gap-3">
+              <Link
+                to="/signin"
+                className="px-5 py-2 rounded-xl border-2 border-primary text-primary font-medium text-sm hover:bg-primary hover:text-white transition-all"
+              >
+                Log In
+              </Link>
+              <Link to="/signup" className="btn-primary">
+                Sign Up
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Hamburger */}
+          <button
+            onClick={() => setIsOpen(true)}
+            className="md:hidden text-white focus:outline-none"
+            aria-label="Open menu"
+          >
+            <Menu size={26} />
+          </button>
+        </div>
+      </header>
+
+      {/* Backdrop */}
+      <button
+        aria-label="Close menu"
+        onClick={() => setIsOpen(false)}
+        className={`fixed inset-0 w-full h-full bg-black/50 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300 cursor-default ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
+
+      {/* Mobile Slide-in Menu */}
+      <div
+        className={`fixed overflow-scroll top-0 left-0 h-full w-72 bg-dark z-50 flex flex-col gap-4 px-5 py-6 md:hidden transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Close button */}
+        <div className="flex items-center justify-between mb-2">
+          <img
+            src="https://placehold.co/100x34?text=Sponect"
+            alt="Sponect"
+            className="h-8 w-auto object-contain"
+          />
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-white hover:text-primary transition-colors"
+            aria-label="Close menu"
+          >
+            <X size={24} />
+          </button>
         </div>
 
-        {/* CTA Button (Desktop only) */}
-        {loggedIn ? (
-          <div className="flex gap-sm items-center justify-center">
-            <UserDropDown user={user} />
+        {loggedIn && <AccountOverview />}
+
+        <div className="border-t border-dark-lighter pt-4">
+          <Navbar dark />
+        </div>
+
+        {loggedIn && (
+          <div className="border-t border-dark-lighter pt-2">
+            <UserNav />
           </div>
-        ) : (
-          <div className="hidden md:flex gap-md">
-            <Link to={"/signin"} className="btn-primary cursor-pointer">
+        )}
+
+        {!loggedIn && (
+          <div className="flex flex-col gap-3 mt-auto pb-4">
+            <Link
+              to="/signin"
+              className="w-full text-center px-5 py-2 rounded-xl border-2 border-primary text-primary font-medium text-sm hover:bg-primary hover:text-white transition-all"
+              onClick={() => setIsOpen(false)}
+            >
               Log In
             </Link>
-            <Link to={"/signup"} className="btn-primary cursor-pointer">
+            <Link
+              to="/signup"
+              className="btn-primary justify-center"
+              onClick={() => setIsOpen(false)}
+            >
               Sign Up
             </Link>
           </div>
         )}
-
-        {/* Mobile Hamburger */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-white focus:outline-none"
-        >
-          {isOpen ? (
-            <i className="bi bi-x-lg" style={{ fontSize: "28px" }}></i>
-          ) : (
-            <i className="bi bi-list" style={{ fontSize: "28px" }}></i>
-          )}
-        </button>
       </div>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="bg-dark rounded-2xl mt-3 p-lg flex flex-col gap-lg md:hidden">
-          <AccountOverview/>
-          <Navbar />
-          <UserNav />
-          {/* CTA Button in mobile menu */}
-          <div className="mt-(--space-lg)">
-            <button className="inline-flex items-center gap-(--space-sm) rounded-xl bg-primary hover:bg-primary-hover text-white text-base sm:text-lg font-medium px-(--space-lg) py-3 shadow-lg transition-all">
-              Join the waitlist ↓
-            </button>
-          </div>
-        </div>
-      )}
-    </header>
+    </>
   );
+};
+
+Header.propTypes = {
+  transparent: PropTypes.bool,
 };
 
 export default Header;

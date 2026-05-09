@@ -2,7 +2,7 @@ const express = require("express");
 const Router = express.Router();
 const {
   getMySponseeProfile,
-  getSponsee,
+  getSponseeById,
   updateCover,
   updateLogo,
   updateMySponseeProfile,
@@ -49,7 +49,8 @@ Router.patch(
 );
 
 // Public Routes
-Router.get("/:sponseeId", getSponsee);
+Router.get("/:sponseeId",   getSponseeById,
+);
 
 
 module.exports = Router;

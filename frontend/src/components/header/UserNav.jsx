@@ -48,8 +48,8 @@ export const UserNav = () => {
                 "
             >
               <User size={18} className="text-primary" />
-              <Link to={"profile"}>
-                <span className="text-white">Profile</span>
+              <Link to={"dashboard"}>
+                <span className="text-white">Dashboard</span>
               </Link>
             </button>
           </li>

@@ -18,6 +18,7 @@ export const theme = extendTheme({
           hover: "#034653",
           light: "#045769",
           lighter: "#06758c",
+          soft:'#E6F4F1'
         },
 
         /* White Colors */
@@ -27,6 +28,12 @@ export const theme = extendTheme({
           light: "#f3f4f6",
           lighter: "#e5e7eb",
         },
+
+        neutral:{
+          surface:"#FFFFFF",
+          bg:"#F9FAFB",
+          border:"#E5E7EB"
+        }
       },
     },
   },
@@ -149,12 +156,13 @@ export const theme = extendTheme({
       styleOverrides: {
         root: ({ theme }) => ({
           paddingBottom: 2,
-          paddingTop: 2,
+          paddingTop: 1,
           paddingLeft: 4,
           paddingRight: 4,
           fontWeight: "bold",
           boxShadow: "md",
           backgroundColor: theme.palette.primary.main,
+          color:"white"
         }),
       },
     },

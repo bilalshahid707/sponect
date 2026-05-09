@@ -1,12 +1,13 @@
 const Sponsee = require("../../models/sponsee.model");
 const Social = require("../../models/social.model");
 const Contact = require("../../models/contact.model");
+const User = require("../../models/user.model");
 const catchAsync = require("../../utils/CatchAsync");
 const AppError = require("../../utils/AppError");
 const { uploadImage, deleteImage } = require("../../utils/Cloudinary");
 const { AllowedSponseeFields } = require("../../utils/Constants");
 
-exports.getSponsee = catchAsync(async (req, res, next) => {
+exports.getSponseeById = catchAsync(async (req, res, next) => {
   const id = Number(req.params.sponseeId);
 
   if (Number.isNaN(id)) {
@@ -24,6 +25,10 @@ exports.getSponsee = catchAsync(async (req, res, next) => {
         model: Contact,
         as: "contacts",
         attributes: ["id", "name", "email", "phone"],
+      },
+      {
+        model: User,
+        attributes: ["id", "username", "email", "phone", "designation"],
       },
     ],
   });

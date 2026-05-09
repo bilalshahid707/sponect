@@ -2,10 +2,9 @@
 export { BasicAlert } from "./common/BasicAlert";
 export { FadeInWhenVisible } from "./common/FadeInWhenVisible";
 export { AccountOverview } from "./common/AccountOverview";
-
+export {CustomAutocomplete} from "./common/CustomAutocomplete"
+export {FormFeedback} from "./common/FormFeedback"
 // dashboard
-export { Sidebar } from "./dashboard/Sidebar";
-export { UploadPhoto } from "./dashboard/UploadPhoto";
 
 // Footer Components
 export { Footer } from "./footer/Footer";
@@ -17,8 +16,7 @@ export { UserDropDown } from "./header/UserDropDown";
 // Home Components
 export { StepCard } from "./home/StepCard";
 
-// Account
-export { BasicSettings } from "./account/BasicSettings";
+
 
 // Sponsor
 export { SponsorOverviewForm } from "./sponsor/SponsorOverviewForm";

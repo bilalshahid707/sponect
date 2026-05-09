@@ -1,9 +1,9 @@
 import React from 'react'
-import { SponsorHeader } from '../../components'
+import { SponsorProfile } from './components/SponsorProfile'
 export const Sponsor = () => {
   return (
     <>
-    <SponsorHeader/>
+    <SponsorProfile/>
     </>
   )
 }

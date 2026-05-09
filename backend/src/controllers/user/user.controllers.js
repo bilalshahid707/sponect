@@ -1,4 +1,6 @@
 const User = require("../../models/user.model");
+const Sponsee = require("../../models/sponsee.model");
+const Sponsor = require("../../models/sponsor.model");
 const catchAsync = require("../../utils/CatchAsync");
 const AppError = require("../../utils/AppError");
 const { uploadImage, deleteImage } = require("../../utils/Cloudinary");
@@ -6,7 +8,12 @@ const { uploadImage, deleteImage } = require("../../utils/Cloudinary");
 exports.getMe = catchAsync(async (req, res, next) => {
   const { id } = req.user;
 
-  const user = await User.findByPk(id);
+  const user = await User.findByPk(id, {
+    include: [
+      { model: Sponsee },
+      { model: Sponsor, as: "postedBy" },
+    ],
+  });
 
   res.status(200).json({
     status: "success",

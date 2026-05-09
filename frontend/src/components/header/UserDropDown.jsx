@@ -1,4 +1,6 @@
+import PropTypes from "prop-types";
 import { useState, useRef, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
 import Avatar from "../../assets/avatar.webp";
 import { UserNav } from "./UserNav";
 import { AccountOverview } from "../common/AccountOverview";
@@ -7,7 +9,6 @@ export const UserDropDown = ({ user }) => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // close on click outside
   useEffect(() => {
     const handler = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -20,28 +21,41 @@ export const UserDropDown = ({ user }) => {
 
   return (
     <div className="relative hidden md:block" ref={dropdownRef}>
-      <button onClick={() => setOpen(!open)} className="cursor-pointer">
+      {/* Trigger */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-2 rounded-full pl-1 pr-3 py-1 hover:bg-white/10 transition-colors cursor-pointer"
+      >
         <img
-          src={user?.profileImage?.secureUrl || Avatar}
-          className="w-12 h-12 rounded-full object-cover"
+          src={user?.avatar?.url || Avatar}
+          alt="avatar"
+          className="w-9 h-9 rounded-full object-cover "
+        />
+        <ChevronDown
+          size={16}
+          className={`text-white/70 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>
 
-      {/* DROPDOWN */}
-      {open && (
-        <div
-          className="
-            absolute right-0 mt-sm
-            w-max h-max bg-dark shadow-lg rounded-3xl
-            p-md  z-50 
-          "
-        >
+      {/* Dropdown panel */}
+      <div
+        className={`absolute right-0 mt-2 w-56 bg-dark border border-dark-lighter rounded-md shadow-xl z-50 overflow-hidden transition-all duration-200 origin-top-right ${
+          open ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
+        }`}
+      >
+        <div className="px-1 pt-1">
           <AccountOverview />
+        </div>
+        <div className="px-1 pb-1">
           <UserNav />
         </div>
-      )}
+      </div>
     </div>
   );
+};
+
+UserDropDown.propTypes = {
+  user: PropTypes.object,
 };
 
 export default UserDropDown;

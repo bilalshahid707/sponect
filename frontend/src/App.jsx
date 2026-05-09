@@ -1,46 +1,49 @@
 import { Header, Footer } from "./components";
+import { PageLoader } from "./components/common/PageLoader";
 import { AllRoutes } from "./routes";
 import { useQuery } from "@tanstack/react-query";
-import { setUser, logUser } from "./services/UserAuth";
-import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser, logUser } from "./services/UserAuth";
 import axios from "axios";
 import "./App.css";
-import { useEffect } from "react";
 
 const API_URL = import.meta.env.VITE_APP_API_URL;
 
 function App() {
-  const location = useLocation()
-
+  const location = useLocation();
   const dispatch = useDispatch();
 
-  const { data: user } = useQuery({
+  const { isPending } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
       const response = await axios.get(`${API_URL}/users/me`, {
         withCredentials: true,
       });
-      return response.data;
+      const userData = response.data?.data;
+      dispatch(setUser(userData));
+      dispatch(logUser(true));
+      return userData;
     },
     staleTime: 1000 * 60 * 5,
-  });
-
-  useEffect(() => {
-    if (user) {
-      dispatch(setUser(user?.data));
-      dispatch(logUser(true));
-    } else {
+    retry: false,
+    onError: () => {
       dispatch(setUser(null));
       dispatch(logUser(false));
-    }
-  }, [user]);
+    },
+  });
+
+  const hideLayout = ["/dashboard", "/signup", "/signin"].some((path) =>
+    location.pathname.startsWith(path)
+  );
+
+  if (isPending) return <PageLoader />;
 
   return (
     <>
-      {['/dashboard', '/signup', '/signin'].some(path => location.pathname.startsWith(path))?'':<Header />}
+      {!hideLayout && <Header transparent={location.pathname === "/"} />}
       <AllRoutes />
-      {['/dashboard', '/signup', '/signin'].some(path => location.pathname.startsWith(path))?'':<Footer />}
+      {!hideLayout && <Footer />}
     </>
   );
 }

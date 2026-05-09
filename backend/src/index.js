@@ -19,7 +19,7 @@ const startServer = async()=>{
     await sequelize.authenticate();
     console.log("Sequelize connection established");
 
-    await sequelize.sync({force:true,alter:true});
+    await sequelize.sync();
     console.log("Models synchronized");
 
     startServer();
@@ -41,11 +41,11 @@ process.on('uncaughtException', (err) => {
 // });
 process.on('SIGTERM', () => {
     console.log('SIGTERM RECEIVED. Shutting down gracefully');
-    mongoose.connection.close().then(() => {
-      console.log('💥 Process terminated!');
+    sequelize.close().then(() => {
+      console.log('Process terminated!');
       process.exit(0);
-    }).catch(err=>{ 
-        console.log("Error while closing mongoose connection");
+    }).catch(err => {
+        console.log("Error while closing sequelize connection");
         console.log(err);
         process.exit(1);
     });

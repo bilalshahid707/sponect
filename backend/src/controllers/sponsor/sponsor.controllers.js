@@ -3,11 +3,11 @@ const Sponsorship = require("../../models/sponsorship.model");
 const catchAsync = require("../../utils/CatchAsync");
 const AppError = require("../../utils/AppError");
 const { uploadImage, deleteImage } = require("../../utils/Cloudinary");
-const { AllowedSponsorFields } = require("../../utils/Constants");
+const { AllowedSponsorFields,sponsorListingFields } = require("../../utils/Constants");
 const { Op } = require("sequelize");
 const Social = require("../../models/social.model");
 const Contact = require("../../models/contact.model")
-
+const User = require('../../models/user.model')
 exports.getSponsor = catchAsync(async (req, res, next) => {
   const id = Number(req.params.sponsorId);
 
@@ -31,6 +31,11 @@ exports.getSponsor = catchAsync(async (req, res, next) => {
         model: Contact,
         as: "contacts",
         attributes: ["id", "name", "email", "phone"],
+      },
+            {
+        model: User,
+        as: "postedBy",
+        attributes: ["id", "username", "email", "phone", "designation"],
       },
     ],
   });
@@ -73,6 +78,7 @@ exports.getAllSponsors = catchAsync(async (req, res, next) => {
     offset: (req.query.page - 1) * 12,
     limit: 12,
     where: queryObject,
+    attributes:sponsorListingFields
   });
   res.status(200).json({
     status: "success",
@@ -100,6 +106,11 @@ exports.getMySponsorProfile = catchAsync(async (req, res, next) => {
         model: Contact,
         as: "contacts",
         attributes: ["id", "name", "email", "phone"],
+      },
+            {
+        model: User,
+        as: "postedBy",
+        attributes: ["id", "username", "email", "phone", "designation"],
       },
     ],
   });

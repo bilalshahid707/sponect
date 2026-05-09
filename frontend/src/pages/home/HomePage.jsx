@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import { ArrowDown } from "lucide-react";
-import cheeziousLogo from "../../assets/cheezious-logo.webp";
-import heroBanner from "../../assets/hero-banner.svg";
+import { Link } from "react-router-dom";
+import { Search, SlidersHorizontal, MousePointerClick, Zap, MessageCircle, Bookmark, Star } from "lucide-react";
+import cherryLogo from "../../assets/partners-logos/cherry-logo.png";
+import justujuLogo from "../../assets/partners-logos/justuju-logo.jpg";
+import nikonLogo from "../../assets/partners-logos/nikon-logo.jpg";
+import somameLogo from "../../assets/partners-logos/somame-logo.jpg";
+import tribuneLogo from "../../assets/partners-logos/tribune-logo.jpg";
+
 import { StepCard, FadeInWhenVisible, BasicAlert } from "../../components";
 import { applicantSteps, brandSteps } from "../../utils";
 import { motion } from "motion/react";
@@ -18,18 +23,11 @@ export const HomePage = () => {
 
   // Logos for trusted by section
   const logos = [
-    cheeziousLogo,
-    cheeziousLogo,
-    cheeziousLogo,
-    cheeziousLogo,
-    cheeziousLogo,
-    cheeziousLogo,
-    cheeziousLogo,
-    cheeziousLogo,
-    cheeziousLogo,
-    cheeziousLogo,
-    cheeziousLogo,
-    cheeziousLogo,
+    cherryLogo,
+    nikonLogo,
+    somameLogo,
+    tribuneLogo,
+    justujuLogo
   ];
 
   const [modalMsg, setModalMsg] = useState(null);
@@ -76,42 +74,94 @@ export const HomePage = () => {
         />
       )}
       {/* Hero Section */}
-      <section className="section">
-        <div className="container gradient-bg overflow-hidden">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-(--space-xl)">
-            {/* Left Content */}
-            <div className="flex flex-col w-full lg:w-[60%] gap-(--space-lg) text-left">
-              <FadeInWhenVisible>
-                <h1 className="heading-primary text-white">
-                  Smart Sponsorship Platform in Pakistan
-                </h1>
-              </FadeInWhenVisible>
+      <section className="bg-dark overflow-hidden min-h-[90vh] flex items-stretch">
+        <div className="w-full max-w-7xl mx-auto px-2 py-6 sm:px-8 flex flex-col md:items-start md:mt-4 items-center justify-between gap-8 relative">
+          {/* Left Content */}
+          <div className="flex flex-col items-center justify-center gap-4 w-full md:px-16 z-10">
+            {/* Typewriter heading */}
+            <motion.h1
+              className="heading-primary text-white text-center"
+              initial={{ width: 0, opacity: 1 }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 1.4, ease: "easeOut" }}
+              style={{ overflow: "hidden", whiteSpace: "normal" }}
+            >
+              {"Smart ".split("").map((char, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: i * 0.045, duration: 0 }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+              <span className="text-primary">
+                {"Sponsorship Platform".split("").map((char, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: (7 + i) * 0.045, duration: 0 }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+              {" in Pakistan".split("").map((char, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: (27 + i) * 0.045, duration: 0 }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </motion.h1>
 
-              <FadeInWhenVisible>
-                <p className="body-text text-white">
-                  Join the leading sponsorship platform in Pakistan where brands
-                  and seekers collaborate for impactful partnerships.
-                </p>
-              </FadeInWhenVisible>
+            {/* Typewriter paragraph */}
+            <motion.p
+              className="body-text text-white text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.8, duration: 0.6 }}
+            >
+              {"Join the leading sponsorship platform in Pakistan where brands and seekers collaborate for impactful partnerships."
+                .split("")
+                .map((char, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.8 + i * 0.018, duration: 0 }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+            </motion.p>
 
-              <FadeInWhenVisible>
-                <div className="mt-(--space-md) flex justify-center lg:justify-start">
-                  <button className="btn-primary">
-                    Join the waitlist
-                    <ArrowDown className="w-5 h-5" />
-                  </button>
-                </div>
-              </FadeInWhenVisible>
-            </div>
+            {/* Fade up button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 4.2, duration: 0.5, ease: "easeOut" }}
+            >
+              <Link to="/signup" className="btn-primary">
+                Get Started
+              </Link>
+            </motion.div>
+          </div>
 
-            {/* Right Content (Hero Illustration / Image) */}
-            <div className="w-full lg:w-[40%] flex justify-center z-30 relative">
-              <FadeInWhenVisible>
-                <div>
-                  <img src={heroBanner} className="object-cover w-full" />
-                </div>
-              </FadeInWhenVisible>
-            </div>
+          {/* Right Content (Hero Illustration / Image) */}
+          <div className="w-full sm:w-[80%] md:w-1/2 absolute flex justify-center items-end self-end md:-bottom-8 bottom-0 right-0 left-0 mx-auto">
+            <FadeInWhenVisible>
+              <img
+                src="https://res.cloudinary.com/sponect/image/upload/v1778266371/Hero-banner_ki0wwx.webp"
+                className="w-full  object-contain"
+                alt="Hero banner"
+              />
+            </FadeInWhenVisible>
           </div>
         </div>
       </section>
@@ -125,35 +175,105 @@ export const HomePage = () => {
             </h2>
           </FadeInWhenVisible>
 
-          <div className="flex gap-(--space-lg) mt-(--space-2xl) overflow-hidden">
-            {logos &&
-              logos.map((logo, index) => (
-                <motion.div
-                  transition={{
-                    duration: 5,
-                    ease: "linear",
-                    repeat: Infinity,
-                  }}
-                  initial={{ translateX: 0 }}
-                  animate={{ translateX: "-100%" }}
+          <div className="mt-(--space-2xl) overflow-hidden">
+            <motion.div
+              className="flex gap-12 items-center"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ duration: 18, ease: "linear", repeat: Infinity }}
+            >
+              {[...logos, ...logos].map((logo, index) => (
+                <div
+                  key={index}
+                  className="shrink-0 w-12 sm:w-20 md:w-28 flex items-center justify-center"
                 >
-                  <div
-                    key={index}
-                    className="img-box shrink-0 w-20 h-fit sm:w-32 md:w-48  flex items-center justify-center"
-                  >
-                    <img
-                      src={logo}
-                      alt="Cheezious"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                </motion.div>
+                  <img
+                    src={logo}
+                    alt="Cheezious"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               ))}
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* How is works section */}
+      {/* Services Section */}
+      <section className="section bg-[#f9fafb]">
+        <div className="container">
+          <FadeInWhenVisible>
+            <p className="text-primary font-semibold text-sm uppercase tracking-widest text-center mb-2">
+              What We Offer
+            </p>
+            <h2 className="heading-secondary text-dark text-center">
+              Skip the Hustle.{" "}
+              <span className="text-primary">Land the Deal.</span>
+            </h2>
+            <p className="text-text-secondary text-base leading-relaxed text-center max-w-xl mx-auto mt-3">
+              No more cold emails, endless DMs, or chasing replies. Sponject
+              does the heavy lifting so you can focus on what matters.
+            </p>
+          </FadeInWhenVisible>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
+            {[
+              {
+                Icon: Search,
+                title: "Smart Discovery",
+                desc: "Hundreds of opportunities in one place — no more endless Googling.",
+              },
+              {
+                Icon: SlidersHorizontal,
+                title: "Filter Your Needs",
+                desc: "Filter by industry, budget, location, and more — only see what's relevant.",
+              },
+              {
+                Icon: MousePointerClick,
+                title: "Skip Manual Outreach",
+                desc: "Connect directly with verified sponsors and seekers in one click.",
+              },
+              {
+                Icon: Zap,
+                title: "Quick Shortlisting",
+                desc: "Evaluate profiles and past collabs side-by-side. No spreadsheets.",
+              },
+              {
+                Icon: MessageCircle,
+                title: "In-Platform Chat",
+                desc: "Every conversation, proposal, and deal — handled inside Sponject.",
+              },
+              {
+                Icon: Bookmark,
+                title: "Saved Profiles",
+                desc: "Save profiles and turn one-time deals into long-term partnerships.",
+              },
+              {
+                Icon: Star,
+                title: "Featured Listings",
+                desc: "Boost visibility with featured placements in front of the right eyes.",
+                premium: true,
+              },
+            ].map((service, i) => (
+              <FadeInWhenVisible key={i}>
+                <div className="relative bg-white rounded-2xl p-6 border border-border hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col gap-4 h-full">
+                  {service.premium && (
+                    <span className="absolute top-4 right-4 text-xs font-semibold bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                      Premium
+                    </span>
+                  )}
+                  <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <service.Icon size={22} className="text-primary" />
+                  </div>
+                  <h3 className="text-dark font-semibold text-base">{service.title}</h3>
+                  <p className="text-text-secondary text-sm leading-relaxed">{service.desc}</p>
+                </div>
+              </FadeInWhenVisible>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works section */}
       <section className="section">
         <div className="container">
           <FadeInWhenVisible>
@@ -206,50 +326,11 @@ export const HomePage = () => {
                     number={step.number}
                     name={step.name}
                     description={step.description}
-                    image={step.image}
+                    icon={step.icon}
                   />
                 ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Waitlist Section  */}
-      <section className="section">
-        <div className="container bg-dark">
-          <FadeInWhenVisible>
-            <h2 className="heading-secondary text-white text-center">
-              Be the First to Join the Future of Sponsorships in Pakistan
-            </h2>
-          </FadeInWhenVisible>
-
-          <FadeInWhenVisible>
-            <div className="waitlist-form flex items-center justify-center mt-(--space-lg)">
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col sm:flex-row gap-3 sm:gap-0 w-full max-w-md rounded-2xl overflow-hidden"
-              >
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  required
-                  onChange={handleInputChange}
-                  placeholder="Enter your email"
-                  className="p-(--space-md) rounded-2xl sm:rounded-l-2xl sm:rounded-r-none border-none focus:border-none focus:outline-none bg-white grow"
-                />
-                <button
-                  type="submit"
-                  className={`btn-primary sm:rounded-l-none! ${
-                    mutation.isPending ? "cursor-not-allowed" : "cursor-pointer"
-                  }`}
-                  disabled={mutation.isPending}
-                >
-                  Join Waitlist
-                </button>
-              </form>
-            </div>
-          </FadeInWhenVisible>
         </div>
       </section>
     </>

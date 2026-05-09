@@ -85,4 +85,10 @@ const Sponsee = sequelize.define(
   }
 );
 
+User.hasOne(Sponsee, {
+  foreignKey: { name: "userId", onDelete: "CASCADE", onUpdate: "CASCADE" },
+});
+Sponsee.belongsTo(User, {
+  foreignKey: { name: "userId", onDelete: "CASCADE", onUpdate: "CASCADE" },
+});
 module.exports = Sponsee;
