@@ -23,6 +23,13 @@ exports.getPitchById = catchAsync(async (req, res) => {
   res.status(200).json({ status: "success", data: pitch });
 });
 
+exports.getPitchesBySponseeId = catchAsync(async(req,res)=>{
+  const {id:sponseeId} = req.sponsee
+  const {status} = req.query
+
+  const pitches=  await PitchService.getPitchesBySponseeId(sponseeId,status?status:'published')
+  res.status(200).json({ status: "success", data: pitches });
+})
 exports.createPitch = catchAsync(async (req, res) => {
   const { id: sponseeId } = req.sponsee;
   const pitch = await PitchService.createPitch(req.body, sponseeId);

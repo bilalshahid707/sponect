@@ -39,6 +39,11 @@ app.use(helmet())
 // }))
 
 
+// Healthcheck
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "ok" })
+})
+
 // Using routers
 app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/users",userRouter)

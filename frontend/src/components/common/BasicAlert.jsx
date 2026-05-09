@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import Alert from "@mui/material/Alert";
-import Collapse from "@mui/material/Collapse";
+import { Alert } from "@mui/joy";
 
 export const BasicAlert = ({ message, severity, setAlertMsg}) => {
   const [open, setOpen] = useState(true);
@@ -24,17 +23,17 @@ export const BasicAlert = ({ message, severity, setAlertMsg}) => {
     if (message) setOpen(true);
   }, [message]);
 
+  if (!open) return null;
+
   return (
-    <Collapse in={open}>
-      <Alert
-        onClose={handleClose}
-        variant="filled"
-        className="w-max rounded-4xl fixed left-[50%] translate-x-[-50%] top-5 z-50"
-        severity={severity}
-      >
-        {message}
-      </Alert>
-    </Collapse>
+    <Alert
+      onClose={handleClose}
+      variant="solid"
+      color={severity === "error" ? "danger" : severity}
+      className="w-max rounded-4xl fixed left-[50%] translate-x-[-50%] top-5 z-50"
+    >
+      {message}
+    </Alert>
   );
 };
 

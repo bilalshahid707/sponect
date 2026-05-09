@@ -25,7 +25,7 @@ export const signupSchema = Yup.object({
 });
 
 export const profileSchema = Yup.object().shape({
-  fullName: Yup.string().required("Full Name is required"),
+  username: Yup.string().required("Full Name is required"),
 
   email: Yup.string()
     .required("Valid email is required")

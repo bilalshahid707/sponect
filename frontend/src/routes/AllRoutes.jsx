@@ -17,6 +17,7 @@ import { AllSponsors } from "../pages/allsponsors/AllSponsors";
 import { CreatePitch, EditPitch, PitchPage } from "../pages/pitch";
 import { AllPitches } from "../pages/allpitches/AllPitches";
 import { useSelector } from "react-redux";
+import {ManagePitches} from "../pages/dashboard/pitches/ManagePitches";
 
 const SponseeRoute = ({ children }) => {
   const loggedIn = useSelector((state) => state.User?.LoggedIn);
@@ -44,6 +45,7 @@ export const AllRoutes = () => {
       <Route path="/dashboard" element={loggedIn ? <Dashboard /> : <Navigate to="/signin" replace />}>
         <Route index element={<Account />} />
         <Route path="/dashboard/profile-settings" element={<Profile />} />
+        <Route path="/dashboard/manage-pitches" element={<ManagePitches />} />
       </Route>
 
       <Route path="/pitches" element={<AllPitches />} />
