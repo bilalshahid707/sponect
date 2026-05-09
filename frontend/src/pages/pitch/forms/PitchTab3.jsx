@@ -7,9 +7,12 @@ import { Plus, Trash2, CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { AddPackageForm } from "./AddPackageModal";
+import { PreviewButton } from "../components/PreviewButton";
 
 const API_URL = import.meta.env.VITE_APP_API_URL;
 const MAX_PACKAGES = 3;
+
+const saveLabel = (status) => (status === "published" ? "Save" : "Save & Continue");
 
 export const PitchTab3 = ({ pitch }) => {
   const queryClient = useQueryClient();
@@ -51,15 +54,19 @@ export const PitchTab3 = ({ pitch }) => {
               Define sponsorship tiers — up to {MAX_PACKAGES} packages
             </p>
           </div>
-          {canAdd && !showForm && (
-            <button
-              type="button"
-              onClick={() => setShowForm(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition-colors"
-            >
-              <Plus size={13} />
-              Add Package
-            </button>
+          {pitch?.status === "published" ? (
+            <PreviewButton pitchId={pitch.id} />
+          ) : (
+            canAdd && !showForm && (
+              <button
+                type="button"
+                onClick={() => setShowForm(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition-colors"
+              >
+                <Plus size={13} />
+                Add Package
+              </button>
+            )
           )}
         </div>
         <div className="h-0.5 bg-primary" />
@@ -146,10 +153,14 @@ export const PitchTab3 = ({ pitch }) => {
         <div className="px-6 py-4 flex justify-end bg-white-light/40 border-t border-border">
           <Button
             type="button"
-            onClick={() => setSearchParams({ tabNumber: 4, tabName: "media" })}
+            onClick={() => {
+              if (pitch?.status !== "published") {
+                setSearchParams({ tabNumber: 4, tabName: "media" });
+              }
+            }}
             className="bg-dark text-white hover:bg-dark-hover px-6 h-9 text-sm"
           >
-            Save & Continue
+            {saveLabel(pitch?.status)}
           </Button>
         </div>
 
@@ -161,6 +172,7 @@ export const PitchTab3 = ({ pitch }) => {
 PitchTab3.propTypes = {
   pitch: PropTypes.shape({
     id: PropTypes.number,
+    status: PropTypes.string,
     packages: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,

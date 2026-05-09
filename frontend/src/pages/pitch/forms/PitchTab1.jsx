@@ -12,11 +12,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormRow } from "../components/FormRow";
 import { RichTextEditor } from "../components/RichTextEditor";
+import { PreviewButton } from "../components/PreviewButton";
 import { genders, ageGroups, occupations } from "../../../utils/constants";
 import { pitchTab1Schema } from "../../../utils/validationSchemas";
 
 const API_URL = import.meta.env.VITE_APP_API_URL;
 const MAX_CHARS = 1200;
+
+const saveLabel = (status) => (status === "published" ? "Save" : "Save & Continue");
 
 export const PitchTab1 = ({ pitch }) => {
   const queryClient = useQueryClient();
@@ -62,7 +65,9 @@ export const PitchTab1 = ({ pitch }) => {
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["pitch", pitchId] });
-            setSearchParams({ tabNumber: 2, tabName: "promotion" });
+            if (pitch?.status !== "published") {
+              setSearchParams({ tabNumber: 2, tabName: "promotion" });
+            }
           },
           onError: (err) => {
             setServerError(err.response?.data?.message || err.message);
@@ -86,9 +91,12 @@ export const PitchTab1 = ({ pitch }) => {
       <div className="max-w-3xl mx-auto bg-white rounded-md border border-border drop-shadow-xs overflow-hidden">
 
         {/* Header */}
-        <div className="px-6 py-4 bg-dark">
-          <h2 className="text-base font-semibold text-white">Details</h2>
-          <p className="text-xs text-white/60 mt-0.5">Describe your pitch and define your target audience</p>
+        <div className="px-6 py-4 bg-dark flex items-center justify-between">
+          <div>
+            <h2 className="text-base font-semibold text-white">Details</h2>
+            <p className="text-xs text-white/60 mt-0.5">Describe your pitch and define your target audience</p>
+          </div>
+          {pitch?.status === "published" && <PreviewButton pitchId={pitch.id} />}
         </div>
         <div className="h-0.5 bg-primary" />
 
@@ -202,7 +210,7 @@ export const PitchTab1 = ({ pitch }) => {
               disabled={formik.isSubmitting}
               className="bg-dark text-white hover:bg-dark-hover px-6 h-9 text-sm"
             >
-              {formik.isSubmitting ? "Saving..." : "Save & Continue"}
+              {formik.isSubmitting ? "Saving..." : saveLabel(pitch?.status)}
             </Button>
           </div>
 
@@ -215,6 +223,7 @@ export const PitchTab1 = ({ pitch }) => {
 PitchTab1.propTypes = {
   pitch: PropTypes.shape({
     id: PropTypes.number,
+    status: PropTypes.string,
     description: PropTypes.object,
     expectedAudience: PropTypes.number,
     gender: PropTypes.string,

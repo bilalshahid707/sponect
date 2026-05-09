@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -7,8 +6,9 @@ import { UserDropDown } from "./UserDropDown";
 import { Navbar } from "./Navbar";
 import { UserNav } from "./UserNav";
 import AccountOverview from "../common/AccountOverview";
+import logo from "../../assets/sponect-logo-header.png";
 
-export const Header = ({ transparent = false }) => {
+export const Header = () => {
   const loggedIn = useSelector((state) => state.User?.LoggedIn);
   const user = useSelector((state) => state.User?.Data);
 
@@ -16,20 +16,20 @@ export const Header = ({ transparent = false }) => {
 
   return (
     <>
-      <header className={`w-full  z-50 ${transparent ? "bg-dark p-2" : "bg-dark"}`}>
-        <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-1 flex items-center justify-between ${transparent ? "rounded-md bg-white" : ""}`}>
+      <header className="w-full relative z-50 bg-white border-b border-dark-lighter drop-shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-1 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0">
             <img
-              src="https://placehold.co/120x40?text=Sponect"
+              src={logo}
               alt="Sponect"
-              className="h-10 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex">
-            <Navbar dark={!transparent} />
+            <Navbar dark={false} />
           </div>
 
           {/* Desktop CTA Buttons */}
@@ -54,7 +54,7 @@ export const Header = ({ transparent = false }) => {
           {/* Mobile Hamburger */}
           <button
             onClick={() => setIsOpen(true)}
-            className="md:hidden text-white focus:outline-none"
+            className="md:hidden text-dark focus:outline-none"
             aria-label="Open menu"
           >
             <Menu size={26} />
@@ -80,7 +80,7 @@ export const Header = ({ transparent = false }) => {
         {/* Close button */}
         <div className="flex items-center justify-between mb-2">
           <img
-            src="https://placehold.co/100x34?text=Sponect"
+            src={logo}
             alt="Sponect"
             className="h-8 w-auto object-contain"
           />
@@ -126,10 +126,6 @@ export const Header = ({ transparent = false }) => {
       </div>
     </>
   );
-};
-
-Header.propTypes = {
-  transparent: PropTypes.bool,
 };
 
 export default Header;

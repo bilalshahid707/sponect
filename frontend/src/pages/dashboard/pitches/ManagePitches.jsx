@@ -62,7 +62,7 @@ export const ManagePitches = () => {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-dark">Pitches</h1>
           <Button
-            onClick={() => navigate("/create-pitch")}
+            onClick={() => navigate("/pitches/create?tabNumber=0&tabName=basic")}
             className="bg-primary hover:bg-primary-hover text-white font-semibold text-xs uppercase tracking-wide h-8 px-3 rounded-md"
           >
             <AddIcon className="size-4" />
@@ -164,7 +164,7 @@ export const ManagePitches = () => {
                       size="icon-sm"
                       variant="ghost"
                       title="Edit pitch"
-                      onClick={() => navigate(`/create-pitch/${pitch.id}`)}
+                      onClick={() => navigate(`/pitches/${pitch.id}/edit?tabNumber=0&tabName=basic`)}
                       className="text-text-secondary hover:text-dark"
                     >
                       <EditOutlinedIcon className="size-4" />
