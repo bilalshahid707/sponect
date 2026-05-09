@@ -41,11 +41,11 @@ export const Header = () => {
             <div className="hidden md:flex items-center gap-3">
               <Link
                 to="/signin"
-                className="px-5 py-2 rounded-xl border-2 border-primary text-primary font-medium text-sm hover:bg-primary hover:text-white transition-all"
+                className="px-5 py-2 rounded-md border-2 border-primary text-primary font-medium text-sm hover:bg-primary hover:text-white transition-all"
               >
                 Log In
               </Link>
-              <Link to="/signup" className="btn-primary">
+              <Link to="/signup" className="px-5 py-2 rounded-md bg-primary text-white font-medium text-sm hover:bg-primary-hover hover:border-primary-hover transition-all border-2 border-primary">
                 Sign Up
               </Link>
             </div>
