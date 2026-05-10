@@ -73,7 +73,7 @@ export const PitchPage = () => {
     enabled: !!sponseeId,
     staleTime: 10 * 60 * 1000,
   });
-
+console.log(sponsee)
   if (isLoading) return <PitchPageSkeleton />;
   if (!pitch) return null;
 
@@ -376,33 +376,40 @@ export const PitchPage = () => {
                   {/* Contacts */}
                   {org.contacts?.length > 0 && (
                     <div className="border-t border-border pt-4 mt-2">
-                      <p className="text-xs text-text-muted uppercase tracking-widest font-semibold mb-3">
-                        Contacts
-                      </p>
+                      <p className="text-xs text-text-muted uppercase tracking-widest font-semibold mb-3">Contacts</p>
                       <div className="flex flex-col gap-3">
                         {org.contacts.map((contact) => (
-                          <div
-                            key={contact.id}
-                            className="flex items-center gap-3 rounded-md border border-dark p-3"
-                          >
-                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-dark shrink-0 text-white font-bold text-sm">
-                              {contact.name?.charAt(0).toUpperCase()}
+                          <div key={contact.id} className="rounded-md border border-border overflow-hidden">
+                            {/* Contact header */}
+                            <div className="flex items-center gap-3 px-4 py-3 bg-dark">
+                              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 border border-white/20 shrink-0 text-white font-bold text-sm">
+                                {contact.name?.charAt(0).toUpperCase()}
+                              </div>
+                              <p className="text-sm font-semibold text-white truncate">{contact.name}</p>
                             </div>
-                            <div className="flex flex-col min-w-0">
-                              <p className="text-sm font-bold text-text-primary truncate">
-                                {contact.name}
-                              </p>
+                            {/* Contact details */}
+                            <div className="px-4 py-3 flex flex-col gap-2 bg-white">
                               {contact.email && (
-                                <span className="flex items-center gap-1 text-xs text-text-secondary mt-0.5">
-                                  <Mail size={11} className="shrink-0" />
-                                  {contact.email}
-                                </span>
+                                <a
+                                  href={`mailto:${contact.email}`}
+                                  className="flex items-center gap-2 text-xs text-text-secondary hover:text-primary transition-colors group"
+                                >
+                                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 shrink-0">
+                                    <Mail size={11} className="text-primary" />
+                                  </span>
+                                  <span className="truncate group-hover:underline">{contact.email}</span>
+                                </a>
                               )}
                               {contact.phone && (
-                                <span className="flex items-center gap-1 text-xs text-text-secondary mt-0.5">
-                                  <Phone size={11} className="shrink-0" />
-                                  {contact.phone}
-                                </span>
+                                <a
+                                  href={`tel:${contact.phone}`}
+                                  className="flex items-center gap-2 text-xs text-text-secondary hover:text-primary transition-colors group"
+                                >
+                                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 shrink-0">
+                                    <Phone size={11} className="text-primary" />
+                                  </span>
+                                  <span className="group-hover:underline">{contact.phone}</span>
+                                </a>
                               )}
                             </div>
                           </div>
