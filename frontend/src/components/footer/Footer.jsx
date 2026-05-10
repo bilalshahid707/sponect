@@ -24,14 +24,7 @@ export const Footer = () => {
               className="body-text text-dark flex gap-2 items-center hover:text-primary transition-colors"
             >
               <i className="bi bi-envelope-fill text-lg shrink-0"></i>
-              <span>info@sponect.com</span>
-            </a>
-            <a
-              href="tel:+92123456789"
-              className="body-text text-dark flex gap-2 items-center hover:text-primary transition-colors"
-            >
-              <i className="bi bi-telephone-fill text-lg shrink-0"></i>
-              <span>+93 320 3529002</span>
+              <span>sponect.pk@gmail.com</span>
             </a>
             <p className="body-text text-dark flex gap-2 items-start">
               <i className="bi bi-geo-alt-fill text-lg shrink-0 mt-1"></i>
