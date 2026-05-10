@@ -38,9 +38,6 @@ const Sponsorships = ({ sponsorships }) => {
                     <Typography level="body-md" className="font-semibold capitalize" sx={{ color: "dark.main" }}>
                       {sponsorship.title}
                     </Typography>
-                    <Typography level="body-xs" sx={{ color: "dark.light", mt: 1 }}>
-                      {sponsorship.description}
-                    </Typography>
                   </Box>
 
                   {/* Right: status (top) and amount (bottom-right) */}
