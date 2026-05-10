@@ -9,7 +9,7 @@ const ProfileHeader = ({ sponsorData }) => {
       <div className="relative w-full h-[340px] md:h-[400px]">
         <img
           className="w-full h-full object-cover"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0TdGNklzMXYucdNgr4sWZEGZ5fc_QKgrscQ&s"
+          src={sponsorData.cover?.url || "https://placehold.co/1200x400/1e293b/ffffff?text=Cover+Photo"}
           alt="cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/15 to-slate-900/60" />
@@ -21,9 +21,9 @@ const ProfileHeader = ({ sponsorData }) => {
             <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 flex-1">
               {/* Logo */}
               <img
-                src="https://thearslan.com/wp-content/uploads/2022/12/cheezious-1080.jpg"
+                src={sponsorData.logo?.url || "https://placehold.co/150x150/1e293b/ffffff?text=Logo"}
                 alt={sponsorData.name}
-                className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-md shrink-0"
+                className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-md shrink-0 object-cover"
               />
 
               {/* Text Content */}
