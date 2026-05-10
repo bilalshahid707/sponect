@@ -1,5 +1,19 @@
 import React from "react";
-import { brandImages } from "../../../utils/constants";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import XIcon from "@mui/icons-material/X";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import PublicIcon from "@mui/icons-material/Public";
+
+const socialIconMap = {
+  facebook: <FacebookIcon sx={{ fontSize: 40, color: "#1877F2" }} />,
+  instagram: <InstagramIcon sx={{ fontSize: 40, color: "#E1306C" }} />,
+  linkedin: <LinkedInIcon sx={{ fontSize: 40, color: "#0A66C2" }} />,
+  x: <XIcon sx={{ fontSize: 40, color: "#000000" }} />,
+  youtube: <YouTubeIcon sx={{ fontSize: 40, color: "#FF0000" }} />,
+  website: <PublicIcon sx={{ fontSize: 40, color: "#334155" }} />,
+};
 
 const SocialsSection = ({ socials }) => {
   return (
@@ -13,7 +27,7 @@ const SocialsSection = ({ socials }) => {
         {socials?.length > 0 ? (
           <div className="w-full flex flex-wrap gap-6 items-center">
             {socials.map((social) => {
-              const logo = brandImages?.[social.name]?.icon;
+              const icon = socialIconMap[social.name?.toLowerCase()];
 
               return (
                 <a
@@ -24,14 +38,8 @@ const SocialsSection = ({ socials }) => {
                   className="transition-transform duration-300 hover:scale-125"
                   title={social.name}
                 >
-                  {logo ? (
-                    <img
-                      className="h-12 w-12"
-                      src={logo}
-                      alt={`${social.name} logo`}
-                    />
-                  ) : (
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-dark">
+                  {icon ?? (
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-dark">
                       <span className="text-white font-bold text-sm">
                         {social.name?.charAt(0)?.toUpperCase() || "S"}
                       </span>

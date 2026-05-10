@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, AspectRatio } from "@mui/joy";
+import { Box, Typography } from "@mui/joy";
 
 const Sponsorships = ({ sponsorships }) => {
   return (
@@ -15,15 +15,15 @@ const Sponsorships = ({ sponsorships }) => {
               key={sponsorship.id}
               className="group flex items-stretch gap-3 overflow-hidden rounded-xl border border-white-lighter shadow-sm transition-colors duration-200 hover:border-primary"
             >
-              <AspectRatio className="h-full w-44 overflow-hidden" ratio={1}>
+              <div className="w-36 shrink-0 overflow-hidden">
                 <img
-                  className="scale-100 transition duration-300 group-hover:scale-105"
-                  src={sponsorship.thumbnailURL}
-                  alt=""
+                  className="h-full w-full object-cover scale-100 transition duration-300 group-hover:scale-105"
+                  src={sponsorship.thumbnailURL || "https://placehold.co/144x144/e2e8f0/94a3b8?text=No+Image"}
+                  alt={sponsorship.title}
                 />
-              </AspectRatio>
+              </div>
 
-              <Box className="w-full p-4" sx={{ height: "100%" }}>
+              <Box className="w-full p-4 min-h-[120px]">
                 <Box sx={{ display: "flex", gap: 2, width: "100%", height: "100%" }}>
                   {/* Left: title + description */}
                   <Box
