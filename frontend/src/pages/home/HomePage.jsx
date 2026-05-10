@@ -73,9 +73,9 @@ export const HomePage = () => {
         />
       )}
       {/* Hero Section */}
-      <section className="overflow-hidden min-h-[90vh] flex items-stretch bg-dark relative">
+      <section className="overflow-hidden h-max min-h-max flex items-stretch bg-dark relative">
         <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#06758c]/30 to-transparent pointer-events-none z-0" />
-        <div className="w-full max-w-7xl mx-auto px-2 py-6 sm:px-8 flex flex-col md:items-start md:mt-4 items-center justify-between gap-8 relative">
+        <div className="w-full max-w-7xl mx-auto px-2 py-6 pb-0 sm:px-8 flex flex-col md:mt-4 items-center justify-center gap-0 ">
           {/* Left Content */}
           <div className="flex flex-col items-center justify-center gap-4 w-full md:px-16 z-10">
             {/* Typewriter heading */}
@@ -122,7 +122,7 @@ export const HomePage = () => {
 
             {/* Typewriter paragraph */}
             <motion.p
-              className="body-text text-white text-center"
+              className="text-xl text-white text-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.8, duration: 0.6 }}
@@ -154,11 +154,12 @@ export const HomePage = () => {
           </div>
 
           {/* Right Content (Hero Illustration / Image) */}
-          <div className="w-full sm:w-[80%] md:w-1/2 absolute flex justify-center items-end self-end md:-bottom-8 bottom-0 right-0 left-0 mx-auto">
+          <div className="w-2xs sm:w-xl flex justify-center items-end self-end md:-bottom-8 bottom-0 right-0 left-0 mx-auto">
             <FadeInWhenVisible>
               <img
                 src="https://res.cloudinary.com/sponect/image/upload/v1778266371/Hero-banner_ki0wwx.webp"
-                className="w-full  object-contain"
+                className="w-full object-fill aspect-video"
+
                 alt="Hero banner"
               />
             </FadeInWhenVisible>
@@ -210,7 +211,7 @@ export const HomePage = () => {
               <span className="text-primary">Land the Deal.</span>
             </h2>
             <p className="text-text-secondary text-base leading-relaxed text-center max-w-xl mx-auto mt-3">
-              No more cold emails, endless DMs, or chasing replies. Sponject
+              No more cold emails, endless DMs, or chasing replies. Sponect
               does the heavy lifting so you can focus on what matters.
             </p>
           </FadeInWhenVisible>
@@ -277,8 +278,11 @@ export const HomePage = () => {
       <section id="how-it-works" className="section">
         <div className="container">
           <FadeInWhenVisible>
+            <p className="text-primary font-semibold text-sm uppercase tracking-widest text-center mb-2">
+              How it Works
+            </p>
             <h2 className="heading-secondary text-dark text-center">
-              How Our Sponsorship Platform in Pakistan Works
+              Simple Steps. Real Partnerships.
             </h2>
           </FadeInWhenVisible>
 
